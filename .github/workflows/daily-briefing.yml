@@ -54,10 +54,10 @@ jobs:
               -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
               -H "anthropic-version: 2023-06-01" \
               -H "anthropic-beta: managed-agents-2026-04-01")
-            STATUS=$(echo $EVENTS | jq -r '.status // empty')
-            if [ "$STATUS" = "idle" ]; then
+            IDLE=$(echo $EVENTS | jq '[.events[] | select(.type == "session.status_idle")] | length')
+            if [ "$IDLE" -gt "0" ]; then
               echo "Agent finished."
-              OUTPUT=$(echo $EVENTS | jq -r '.events[] | select(.type == "agent.message") | .content[] | select(.type == "text") | .text' | tail -1)
+              OUTPUT=$(echo $EVENTS | jq -r '[.events[] | select(.type == "agent.message")] | last | .content[] | select(.type == "text") | .text')
               mkdir -p briefings
               echo "# Hospitality AI Briefing — $DATE" > "briefings/$DATE.md"
               echo "" >> "briefings/$DATE.md"
