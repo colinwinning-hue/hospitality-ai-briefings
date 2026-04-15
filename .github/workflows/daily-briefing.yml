@@ -56,9 +56,9 @@ jobs:
               -H "anthropic-beta: managed-agents-2026-04-01")
             
             # Debug: show top-level keys
-            echo "Response keys: $(echo $EVENTS | jq -r 'keys')"
+            # echo "Response keys: $(echo $EVENTS | jq -r 'keys')"
             
-            IDLE=$(echo $EVENTS | jq '.. | objects | select(.type? == "session.status_idle") | .type' | wc -l)
+            IDLE=$(echo $EVENTS | jq '[.data[] | select(.type == "session.status_idle")] | length')
             if [ "$IDLE" -gt "0" ]; then
               echo "Agent finished."
               OUTPUT=$(echo $EVENTS | jq -r '.. | objects | select(.type? == "agent.message") | .content[]? | select(.type? == "text") | .text' | tail -c 50000)
