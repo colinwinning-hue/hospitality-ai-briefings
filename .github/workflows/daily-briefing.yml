@@ -1,0 +1,77 @@
+name: Hospitality AI Daily Briefing
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # 7am UTC daily
+  workflow_dispatch:      # manual trigger from Actions tab
+
+jobs:
+  run-briefing:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     # needed to commit briefing files
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Create session
+        id: create_session
+        run: |
+          SESSION=$(curl -sS --fail-with-body \
+            https://api.anthropic.com/v1/sessions \
+            -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "anthropic-beta: managed-agents-2026-04-01" \
+            -H "content-type: application/json" \
+            -d '{
+              "agent": { "type": "agent", "id": "agent_011Ca5R46SM5C3GWn2n1w2vs" },
+              "environment_id": "env_01QFEq9dNeWPGWX9Qm2U1Vb2",
+              "title": "Daily Briefing '"$(date +%Y-%m-%d)"'"
+            }')
+          echo "session_id=$(echo $SESSION | jq -r '.id')" >> $GITHUB_OUTPUT
+
+      - name: Send trigger message
+        run: |
+          curl -sS --fail-with-body \
+            "https://api.anthropic.com/v1/sessions/${{ steps.create_session.outputs.session_id }}/events" \
+            -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "anthropic-beta: managed-agents-2026-04-01" \
+            -H "content-type: application/json" \
+            -d '{"events": [{"type": "user.message", "content": [{"type": "text", "text": "Run a daily brief for the last 24 hours."}]}]}'
+
+      - name: Poll for completion
+        id: poll
+        run: |
+          SESSION_ID=${{ steps.create_session.outputs.session_id }}
+          DATE=$(date +%Y-%m-%d)
+          for i in $(seq 1 40); do
+            sleep 30
+            echo "Polling... attempt $i of 40"
+            EVENTS=$(curl -sS \
+              "https://api.anthropic.com/v1/sessions/$SESSION_ID/events" \
+              -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
+              -H "anthropic-version: 2023-06-01" \
+              -H "anthropic-beta: managed-agents-2026-04-01")
+            STATUS=$(echo $EVENTS | jq -r '.status // empty')
+            if [ "$STATUS" = "idle" ]; then
+              echo "Agent finished."
+              OUTPUT=$(echo $EVENTS | jq -r '.events[] | select(.type == "agent.message") | .content[] | select(.type == "text") | .text' | tail -1)
+              mkdir -p briefings
+              echo "# Hospitality AI Briefing — $DATE" > "briefings/$DATE.md"
+              echo "" >> "briefings/$DATE.md"
+              echo "$OUTPUT" >> "briefings/$DATE.md"
+              echo "briefing_date=$DATE" >> $GITHUB_OUTPUT
+              echo "=== BRIEFING SAVED ==="
+              break
+            fi
+          done
+
+      - name: Commit briefing to repo
+        run: |
+          git config user.name "Hospitality AI Monitor"
+          git config user.email "actions@github.com"
+          git add briefings/
+          git diff --staged --quiet || git commit -m "Briefing: $(date +%Y-%m-%d)"
+          git push
