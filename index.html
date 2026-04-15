@@ -244,6 +244,59 @@
       margin: 1.5rem 0;
     }
 
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .briefing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .briefing-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--cream);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-weight: 400;
+    }
+
+    .briefing-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+      color: #2a2520;
+    }
+
+    .briefing-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .briefing-table tr:hover td {
+      background: var(--cream);
+    }
+
+    /* Links */
+    .briefing-body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: border-color 0.15s;
+    }
+
+    .briefing-body a:hover {
+      border-bottom-color: var(--accent);
+    }
+
     /* Cluster cards */
     .cluster-card {
       background: var(--cream);
@@ -509,7 +562,7 @@
 
   <script>
     // ─── CONFIG ─────────────────────────────────────────────────────────────
-    const REPO_OWNER = 'colinwinning-hue'; 
+    const REPO_OWNER = 'colinwinning-hue';
     const REPO_NAME  = 'hospitality-ai-briefings';
     const BRANCH     = 'main';
     const BASE_URL   = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}`;
@@ -628,6 +681,34 @@
       // Remove h1 (date header — shown separately)
       md = md.replace(/^# .+\n?/m, '');
 
+      // ── TABLE PARSER ──────────────────────────────────────────────────────
+      // Convert markdown tables to styled HTML before other processing
+      md = md.replace(/((?:^\|.+\|\n?)+)/gm, (tableBlock) => {
+        const rows = tableBlock.trim().split('\n').filter(r => r.trim());
+        if (rows.length < 2) return tableBlock;
+
+        let tableHtml = '<div class="table-wrap"><table class="briefing-table">';
+        rows.forEach((row, i) => {
+          // Skip separator rows (|---|---|)
+          if (/^\|[\s\-:|\s]+\|$/.test(row)) return;
+          const cells = row.split('|').filter((_, ci) => ci > 0 && ci < row.split('|').length - 1);
+          const tag = i === 0 ? 'th' : 'td';
+          tableHtml += '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+        });
+        tableHtml += '</table></div>';
+        return tableHtml;
+      });
+
+      // ── INLINE LINKS ──────────────────────────────────────────────────────
+      // Convert [text](url) to <a> tags
+      md = md.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+      // ── BARE URLS in data points ──────────────────────────────────────────
+      // Make bare URLs clickable (not already inside an href)
+      md = md.replace(/(?<![="(])(https?:\/\/[^\s<)"]+)/g,
+        '<a href="$1" target="_blank" rel="noopener">$1</a>');
+
       let html = md
         // H2
         .replace(/^## (.+)$/gm, '<h2>$1</h2>')
@@ -641,7 +722,7 @@
         .replace(/\*(.+?)\*/g, '<em>$1</em>')
         // So what line
         .replace(/\*\*So what:\*\* (.+)/g, '<div class="so-what"><strong>So what:</strong> $1</div>')
-        // Sources line  
+        // Sources line
         .replace(/\*\*Sources:\*\* (.+)/g, '<p><strong>Sources:</strong> $1</p>')
         // Lists
         .replace(/^- (.+)$/gm, '<li>$1</li>')
