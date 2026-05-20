@@ -1,16 +1,13 @@
 name: Hospitality AI Daily Briefing
-
 on:
   schedule:
     - cron: '0 7 * * 1,3,5'  # 7am UTC M/W/F
   workflow_dispatch:      # manual trigger from Actions tab
-
 jobs:
   run-briefing:
     runs-on: ubuntu-latest
     permissions:
       contents: write     # needed to commit briefing files
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -27,7 +24,7 @@ jobs:
             -d '{
               "agent": { "type": "agent", "id": "agent_011Ca5R46SM5C3GWn2n1w2vs" },
               "environment_id": "env_01QFEq9dNeWPGWX9Qm2U1Vb2",
-              "title": "Daily Briefing '"$(date +%Y-%m-%d)"'"
+              "title": "Briefing '"$(date +%Y-%m-%d)"'"
             }')
           echo "session_id=$(echo $SESSION | jq -r '.id')" >> $GITHUB_OUTPUT
 
@@ -39,22 +36,42 @@ jobs:
             -H "anthropic-version: 2023-06-01" \
             -H "anthropic-beta: managed-agents-2026-04-01" \
             -H "content-type: application/json" \
-            -d '{"events": [{"type": "user.message", "content": [{"type": "text", "text": "Run a daily brief for the last 24 hours."}]}]}'
+            -d '{"events": [{"type": "user.message", "content": [{"type": "text", "text": "Run a briefing covering the last 2-3 days of hospitality AI news."}]}]}'
 
       - name: Poll for completion
         id: poll
         run: |
           SESSION_ID=${{ steps.create_session.outputs.session_id }}
           DATE=$(date +%Y-%m-%d)
-          for i in $(seq 1 40); do
+          STATUS="pending"
+          for i in $(seq 1 15); do
             sleep 30
-            echo "Polling... attempt $i of 40"
+            echo "Polling... attempt $i of 15"
             EVENTS=$(curl -sS \
               "https://api.anthropic.com/v1/sessions/$SESSION_ID/events" \
               -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
               -H "anthropic-version: 2023-06-01" \
               -H "anthropic-beta: managed-agents-2026-04-01")
-  
+
+            ERROR=$(echo $EVENTS | jq '[.data[] | select(.type == "session.status_error" or .type == "session.status_failed")] | length')
+            if [ "$ERROR" -gt "0" ]; then
+              echo "Agent errored out."
+              REASON=$(echo $EVENTS | jq -r '[.data[] | select(.type == "session.status_error" or .type == "session.status_failed")] | last | (.error.message // .reason // "unknown")')
+              echo "Reason: $REASON"
+              mkdir -p briefings
+              {
+                echo "# Hospitality AI Briefing — $DATE"
+                echo ""
+                echo "_Briefing run failed._"
+                echo ""
+                echo "**Reason:** $REASON"
+                echo ""
+                echo "Check the Anthropic console for session $SESSION_ID."
+              } > "briefings/$DATE.md"
+              STATUS="failed"
+              break
+            fi
+
             IDLE=$(echo $EVENTS | jq '[.data[] | select(.type == "session.status_idle")] | length')
             if [ "$IDLE" -gt "0" ]; then
               echo "Agent finished."
@@ -63,11 +80,30 @@ jobs:
               echo "# Hospitality AI Briefing — $DATE" > "briefings/$DATE.md"
               echo "" >> "briefings/$DATE.md"
               printf '%s' "$OUTPUT" >> "briefings/$DATE.md"
-              echo "briefing_date=$DATE" >> $GITHUB_OUTPUT
-              echo "=== BRIEFING SAVED ==="
+
+              INPUT_TOKENS=$(echo $EVENTS | jq '[.data[] | select(.type == "agent.message") | .usage.input_tokens // 0] | add')
+              OUTPUT_TOKENS=$(echo $EVENTS | jq '[.data[] | select(.type == "agent.message") | .usage.output_tokens // 0] | add')
+              echo "Tokens used: $INPUT_TOKENS input, $OUTPUT_TOKENS output"
+              echo "" >> "briefings/$DATE.md"
+              echo "---" >> "briefings/$DATE.md"
+              echo "_Run cost: $INPUT_TOKENS input tokens, $OUTPUT_TOKENS output tokens._" >> "briefings/$DATE.md"
+
+              STATUS="success"
               break
             fi
           done
+
+          if [ "$STATUS" = "pending" ]; then
+            echo "Polling timed out after 7.5 minutes."
+            mkdir -p briefings
+            {
+              echo "# Hospitality AI Briefing — $DATE"
+              echo ""
+              echo "_Briefing run timed out._"
+              echo ""
+              echo "The agent did not complete within 7.5 minutes. Check session $SESSION_ID in the Anthropic console."
+            } > "briefings/$DATE.md"
+          fi
 
       - name: Commit briefing to repo
         run: |
