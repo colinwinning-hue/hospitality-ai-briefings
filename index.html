@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hospitality AI Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --ink: #0e0e0e;
       --paper: #f5f0e8;
       --cream: #ede8dc;
-      --accent: #c8401a;
-      --accent-light: #e8956d;
+      --accent: #c9a96a;        /* changed from #c8401a — matches inverisla gold */
+      --accent-light: #d9c089;  /* lighter gold variant */
       --muted: #7a7060;
       --border: #d4cdc0;
       --signal: #1a6e3c;
@@ -25,7 +25,7 @@
     body {
       background: var(--paper);
       color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 300;
       min-height: 100vh;
     }
@@ -41,7 +41,7 @@
     }
 
     .masthead-left {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       color: var(--muted);
       letter-spacing: 0.1em;
@@ -53,7 +53,7 @@
     }
 
     .masthead-title h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(1.8rem, 4vw, 3rem);
       font-weight: 700;
       letter-spacing: -0.02em;
@@ -61,7 +61,7 @@
     }
 
     .masthead-title .subtitle {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -71,7 +71,7 @@
 
     .masthead-right {
       text-align: right;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       color: var(--muted);
       letter-spacing: 0.05em;
@@ -90,7 +90,7 @@
       padding: 0.5rem 0;
       overflow: hidden;
       white-space: nowrap;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       letter-spacing: 0.08em;
     }
@@ -130,7 +130,7 @@
     .archive-bar::-webkit-scrollbar { display: none; }
 
     .archive-btn {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       letter-spacing: 0.05em;
       padding: 0.4rem 1rem;
@@ -176,14 +176,14 @@
     }
 
     .briefing-date-header .date-label {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.5rem;
       font-weight: 400;
       font-style: italic;
     }
 
     .briefing-date-header .date-meta {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
       color: var(--muted);
       letter-spacing: 0.1em;
@@ -192,7 +192,7 @@
 
     /* Rendered markdown styles */
     .briefing-body h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.1rem;
       font-weight: 700;
       margin: 2rem 0 1rem;
@@ -206,7 +206,7 @@
     .briefing-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
 
     .briefing-body h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.05rem;
       font-weight: 700;
       margin: 1.5rem 0 0.5rem;
@@ -257,7 +257,7 @@
     }
 
     .briefing-table th {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -317,7 +317,7 @@
 
     .tag {
       display: inline-block;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.58rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -346,7 +346,7 @@
     .sidebar-section:last-child { border-bottom: none; }
 
     .sidebar-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.58rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -359,7 +359,7 @@
     }
 
     .stat-number {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 2rem;
       font-weight: 700;
       line-height: 1;
@@ -375,7 +375,7 @@
 
     .domain-pill {
       display: inline-block;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
       padding: 0.3rem 0.7rem;
       border: 1px solid var(--border);
@@ -403,7 +403,7 @@
     }
 
     .loading-text {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       color: var(--muted);
       letter-spacing: 0.1em;
@@ -423,7 +423,7 @@
     }
 
     .empty-state p {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       letter-spacing: 0.1em;
     }
@@ -439,14 +439,14 @@
     }
 
     footer .footer-left {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 0.9rem;
       font-style: italic;
       color: var(--muted);
     }
 
     footer .footer-right {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
       color: var(--muted);
       letter-spacing: 0.1em;
@@ -463,7 +463,41 @@
       .sidebar { padding: 1.5rem 0; border-top: 1px solid var(--border); }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
     }
+
+    /* Data points callout */
+    .data-points {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 2px;
+      list-style: none;
+      padding-left: 1.5rem;
+    }
+
+    .data-points li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dotted var(--border);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .data-points li:last-child {
+      border-bottom: none;
+    }
+
+    .data-points li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+      top: 0.6rem;
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -517,7 +551,11 @@
             </div>
             <div class="stat-item">
               <div class="stat-number" id="stat-flags">—</div>
-              <div class="stat-label">Agentwashing flags</div>
+              <div class="stat-label">Vendor claims assessed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-sources">—</div>
+              <div class="stat-label">Sources cited</div>
             </div>
           </div>
         </div>
@@ -538,7 +576,7 @@
 
         <div class="sidebar-section">
           <div class="sidebar-label">Archive</div>
-          <div id="sidebar-archive" style="font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); line-height: 2;">
+          <div id="sidebar-archive" style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); line-height: 2;">
             Loading...
           </div>
         </div>
@@ -546,9 +584,10 @@
         <div class="sidebar-section">
           <div class="sidebar-label">About</div>
           <p style="font-size: 0.78rem; color: var(--muted); line-height: 1.6;">
-            Daily AI intelligence for hospitality operators and PE-backed SaaS companies. 
-            Signal-first. Vendor-independent. Generated by an autonomous research agent 
-            scanning 15+ hospitality and technology sources each morning.
+            Hospitality AI intelligence for operators and PE-backed SaaS companies. 
+            Signal-first. Vendor-independent. Generated three times a week by an 
+            autonomous research agent scanning 15+ trade press, research, and 
+            technology sources.
           </p>
         </div>
       </aside>
@@ -556,8 +595,8 @@
   </div>
 
   <footer>
-    <div class="footer-left">Hospitality AI Intelligence — Independent Research</div>
-    <div class="footer-right">Generated daily · Signal over noise · Vendor independent</div>
+    <div class="footer-left">A publication from <a href="https://inverisla.com">Inverisla</a></div>
+    <div class="footer-right">Generated Mon/Wed/Fri · Signal over noise · Vendor independent</div>
   </footer>
 
   <script>
@@ -653,15 +692,36 @@
     function renderBriefing(markdown, date) {
       const html = parseMarkdown(markdown);
 
-      // Count clusters and flags for sidebar stats
-      const clusterCount = (markdown.match(/^###/gm) || []).length;
-      const flagCount = (markdown.match(/agentwash/gi) || []).length;
+      // Count clusters — match h2 headings that introduce a clustered domain
+      // (excludes h2 for DATA POINTS, AGENTWASHING, WHO TO WATCH which are not clusters)
+      const clusterHeadings = markdown.match(/^##\s+(.+)$/gm) || [];
+      const clusterCount = clusterHeadings.filter(h => {
+        const text = h.replace(/^##\s+/, '').toUpperCase();
+        return !text.includes('DATA POINTS') 
+            && !text.includes('AGENTWASHING') 
+            && !text.includes('WHO TO WATCH');
+      }).length;
+
+      // Count vendor claims assessed in the agentwashing table
+      // (matches Signal, Noise, or Watch verdicts in table cells, allowing bold wrapping)
+      const claimMatches = markdown.match(/\|\s*\**\s*(Signal|Noise|Watch)\b[^|]*\|/gi) || [];
+      const claimCount = claimMatches.length;
+
+      // Count unique source URLs cited
+      const urlMatches = markdown.match(/https?:\/\/[^\s<)"]+/g) || [];
+      const uniqueSources = new Set(urlMatches.map(u => {
+        try { return new URL(u).hostname; } catch { return u; }
+      })).size;
 
       document.getElementById('stat-clusters').textContent = clusterCount || '—';
-      document.getElementById('stat-flags').textContent = flagCount || '0';
+      document.getElementById('stat-flags').textContent = claimCount || '0';
 
-      // Build ticker from h3 headings
-      const headings = [...markdown.matchAll(/^### (.+)$/gm)].map(m => m[1]);
+      // Optional: if you add a third stat element with id="stat-sources", this populates it
+      const sourcesEl = document.getElementById('stat-sources');
+      if (sourcesEl) sourcesEl.textContent = uniqueSources || '0';
+
+      // Build ticker from cluster headings (h2 CLUSTER lines, not h3)
+      const headings = [...markdown.matchAll(/^##\s*CLUSTER[^—-]*[—-]\s*(.+)$/gmi)].map(m => m[1].trim());
       if (headings.length > 0) {
         document.getElementById('ticker-content').innerHTML =
           headings.map(h => `<span>${h}</span><span class="ticker-sep">◆</span>`).join('');
@@ -678,69 +738,64 @@
 
     // ─── MARKDOWN PARSER ─────────────────────────────────────────────────────
     function parseMarkdown(md) {
-      // Remove h1 (date header — shown separately)
+      // Remove h1 (date header — shown separately in our layout)
       md = md.replace(/^# .+\n?/m, '');
 
-      // ── TABLE PARSER ──────────────────────────────────────────────────────
-      // Convert markdown tables to styled HTML before other processing
-      md = md.replace(/((?:^\|.+\|\n?)+)/gm, (tableBlock) => {
-        const rows = tableBlock.trim().split('\n').filter(r => r.trim());
-        if (rows.length < 2) return tableBlock;
+      // Defang accidental Setext headings: ensure --- always has a blank line before it.
+      md = md.replace(/([^\n])\n(---+)\s*$/gm, '$1\n\n$2');
 
-        let tableHtml = '<div class="table-wrap"><table class="briefing-table">';
-        rows.forEach((row, i) => {
-          // Skip separator rows (|---|---|)
-          if (/^\|[\s\-:|\s]+\|$/.test(row)) return;
-          const cells = row.split('|').filter((_, ci) => ci > 0 && ci < row.split('|').length - 1);
-          const tag = i === 0 ? 'th' : 'td';
-          tableHtml += '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
-        });
-        tableHtml += '</table></div>';
-        return tableHtml;
-      });
+      // Normalise data points: collapse list items where the citation is on a continuation line.
+      // Pattern: "- stat text.\n  (citation)" becomes "- stat text. (citation)"
+      md = md.replace(
+        /^(- [^\n]+?)\n[ \t]+(\([^\n]+\))/gm,
+        '$1 $2'
+      );
 
-      // ── INLINE LINKS ──────────────────────────────────────────────────────
-      // Convert [text](url) to <a> tags
-      md = md.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
-        '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      // Normalise data points: collapse blank lines between list items.
+      // If we see "- item\n\n- item", remove the blank line between them.
+      md = md.replace(
+        /^(- [^\n]+)\n\n(?=- )/gm,
+        '$1\n'
+      );
 
-      // ── BARE URLS in data points ──────────────────────────────────────────
-      // Make bare URLs clickable (not already inside an href)
-      md = md.replace(/(?<![="(])(https?:\/\/[^\s<)"]+)/g,
-        '<a href="$1" target="_blank" rel="noopener">$1</a>');
-
-      let html = md
-        // H2
-        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-        // H3 → cluster card start
-        .replace(/^### (.+)$/gm, '<div class="cluster-card"><h3>$1</h3>')
-        // HR → close cluster card + hr
-        .replace(/^---$/gm, '</div><hr>')
-        // Bold
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        // Italic
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        // So what line
-        .replace(/\*\*So what:\*\* (.+)/g, '<div class="so-what"><strong>So what:</strong> $1</div>')
-        // Sources line
-        .replace(/\*\*Sources:\*\* (.+)/g, '<p><strong>Sources:</strong> $1</p>')
-        // Lists
-        .replace(/^- (.+)$/gm, '<li>$1</li>')
-        .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-        // Paragraphs
-        .replace(/\n\n([^<\n].+)/g, '\n\n<p>$1</p>')
-        // Tags
+      // Convert custom tags before markdown parsing
+      md = md
         .replace(/\[SIGNAL\]/g, '<span class="tag tag-signal">Signal</span>')
         .replace(/\[NOISE\]/g, '<span class="tag tag-noise">Agentwash</span>')
         .replace(/\[WATCH\]/g, '<span class="tag tag-watch">Watch</span>')
         .replace(/\[DATA\]/g, '<span class="tag tag-data">Data Point</span>');
 
-      // Close any unclosed cluster cards before a h2
-      html = html.replace(/(<h2>)/g, '</div>$1');
+      // Configure marked to use GitHub-flavored markdown
+      marked.setOptions({
+        gfm: true,
+        breaks: false,
+        headerIds: false
+      });
 
-      // Clean up empty divs
-      html = html.replace(/<div class="cluster-card"><\/div>/g, '');
-      html = html.replace(/<\/div>\s*<hr>/g, '</div><hr>');
+      let html = marked.parse(md);
+
+      // Post-process: wrap h2 + following content as cluster cards
+      html = html.replace(
+        /<h2>([^<]*CLUSTER[^<]*)<\/h2>([\s\S]*?)(?=<h2|$)/gi,
+        '<div class="cluster-card"><h3>$1</h3>$2</div>'
+      );
+
+      // Style "So what:" lines inside cluster cards
+      html = html.replace(
+        /<p><strong>So what:<\/strong>\s*([^<]*)<\/p>/g,
+        '<div class="so-what"><strong>So what:</strong> $1</div>'
+      );
+
+      // Wrap tables in scroll container with our class
+      html = html.replace(/<table>/g, '<div class="table-wrap"><table class="briefing-table">');
+      html = html.replace(/<\/table>/g, '</table></div>');
+
+      // Apply data-points class to the ul that follows the Data Points heading
+      // (handles "DATA POINTS" or "Data Points" — case insensitive)
+      html = html.replace(
+        /(<h2>[^<]*DATA POINTS[^<]*<\/h2>\s*)<ul>/i,
+        '$1<ul class="data-points">'
+      );
 
       return html;
     }
