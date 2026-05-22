@@ -86,7 +86,6 @@ jobs:
               echo "Tokens used: $INPUT_TOKENS input, $OUTPUT_TOKENS output"
               echo "" >> "briefings/$DATE.md"
               echo "---" >> "briefings/$DATE.md"
-              echo "_Run cost: $INPUT_TOKENS input tokens, $OUTPUT_TOKENS output tokens._" >> "briefings/$DATE.md"
 
               STATUS="success"
               break
