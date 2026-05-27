@@ -1,71 +1,72 @@
 # Hospitality AI Intelligence Briefings
 
-Daily AI intelligence for hospitality operators and PE-backed SaaS companies. An autonomous research agent scans 15+ hospitality and technology sources each morning and produces a structured briefing — signal over noise, vendor-independent.
+Three-times-a-week AI intelligence for hospitality operators and PE-backed SaaS companies. An autonomous research agent scans 15+ hospitality trade press, research, and technology sources and publishes a structured briefing to [briefings.inverisla.com](https://briefings.inverisla.com).
 
-## Setup
+Signal over noise. Vendor-independent. Built and run by [Inverisla](https://inverisla.com).
 
-### 1. Create the repo
-Create a new GitHub repository called `hospitality-ai-briefings`. Make it **public** (required for GitHub Pages).
+## What gets published
 
-### 2. Add your API key
-In the repo: **Settings → Secrets and variables → Actions → New repository secret**
-- Name: `ANTHROPIC_API_KEY`
-- Value: your Anthropic API key
+Each briefing covers:
 
-### 3. Update the dashboard
-In `index.html`, find this line near the top of the `<script>` block and update it:
-```js
-const REPO_OWNER = 'YOUR_GITHUB_USERNAME';  // ← update this
-```
-
-### 4. Enable GitHub Pages
-In the repo: **Settings → Pages**
-- Source: `Deploy from a branch`
-- Branch: `main`, folder: `/ (root)`
-- Save
-
-Your dashboard will be live at: `https://YOUR_USERNAME.github.io/hospitality-ai-briefings/`
-
-### 5. Run manually to test
-Go to **Actions → Hospitality AI Daily Briefing → Run workflow**
-
-The first briefing will be committed to `/briefings/YYYY-MM-DD.md` and appear on the dashboard within a minute.
-
----
+- **Clusters** — themes grouped by signal, not source, drawn from seven domains (Data & Integration, AI Visibility & Discovery, Vendor Moves, Operational AI, People & Skills, Governance & Security, Funding & M&A)
+- **Agentwashing table** — vendors relabelling old features versus genuine AI-native moves, with explicit verdicts (Signal / Watch / Noise)
+- **Data points** — stats and figures useful for building a commercial case for AI readiness work
+- **Who to watch** — analysts, operators, and founders worth following based on the week's material
 
 ## How it works
 
 ```
-GitHub Actions (7am UTC daily)
-    → Creates a Managed Agents session
-    → Sends trigger message
-    → Polls for completion (up to 20 minutes)
-    → Commits briefing as /briefings/YYYY-MM-DD.md
-    → Dashboard reads from repo via GitHub API
+GitHub Actions (7am UTC, Mon/Wed/Fri)
+    → Creates an Anthropic Managed Agents session
+    → Sends trigger message ("Run a briefing covering the last 2-3 days...")
+    → Polls for completion (up to 7.5 minutes)
+    → Commits the briefing as /briefings/YYYY-MM-DD.md
+    → Site reads from the repo and renders via Marked
 ```
 
-## Briefing structure
+The briefing dashboard at briefings.inverisla.com is a static HTML page that fetches the latest markdown files from this repo via the GitHub API and renders them client-side. No build step.
 
-Each briefing covers:
-- **Clusters** — themes grouped by signal, not source
-- **Agentwashing Watch** — vendors relabelling old features as AI
-- **Data Points** — ROI figures, stats useful for client conversations  
-- **Who to Watch** — new voices worth following
+## Repository structure
 
-## Adjusting the schedule
-
-In `.github/workflows/daily-briefing.yml`, the cron schedule is:
 ```
-0 7 * * *   →  7:00am UTC daily
+hospitality-ai-briefings/
+├── .github/workflows/briefing.yml   GitHub Actions schedule and trigger
+├── agent/agent-config.yaml          Anthropic Managed Agents system prompt and config
+├── briefings/                       Markdown output, one file per edition
+├── index.html                       Dashboard / rendering site
+├── CNAME                            Custom domain config for GitHub Pages
+└── README.md
 ```
 
-Adjust to your preferred time. UTC+1 (BST) means `0 6 * * *` for 7am Scottish time in summer.
+## Schedule and cost
 
-## Costs
+- Runs three times a week: Monday, Wednesday, Friday at 7am UTC
+- Cost per run: ~$0.75 in Anthropic API tokens (Sonnet 4.6, requires Tier 2 or higher)
+- Approximate monthly cost: **~$10/month**
 
-Each briefing run costs approximately:
-- ~$0.05–0.15 in Claude API tokens (depending on article volume)
-- ~$0.01–0.02 in session runtime ($0.08/hour, runs ~10–15 minutes)
-- Web searches: $0.01 per 1,000 searches
+The cron schedule lives in `.github/workflows/briefing.yml`:
 
-Estimated monthly cost: **~$3–5/month** for a daily briefing.
+```
+0 7 * * 1,3,5   →   7am UTC on Mon, Wed, Fri
+```
+
+## Agent configuration
+
+The full system prompt is versioned in `agent/agent-config.yaml`. Changes to the prompt are reflected in subsequent briefings. To update the live agent, edit the YAML, copy its contents into the Anthropic Managed Agents console, and save.
+
+The current configuration enforces:
+
+- One search round, one fetch round, then write (no agent loops)
+- Maximum 12 articles fetched per run
+- Strict format requirements for the agentwashing table, data points list, and who to watch entries
+
+## Known limitations
+
+- Duplicate stories occasionally appear in consecutive editions when the news cycle hasn't moved on. The agent doesn't yet track what it covered in the previous run.
+- Coverage balance between restaurant and hotel can skew on quieter news days. The prompt instructs the agent to note this explicitly rather than pad with weak material.
+
+## About
+
+Published by [Inverisla](https://inverisla.com) — independent advisory for hospitality technology and AI.
+
+The story of building this tool, including the cost iterations and the rate limit diagnosis, is at [inverisla.com/writing/intelligence-briefing-tool](https://inverisla.com/writing/intelligence-briefing-tool).
