@@ -35,6 +35,7 @@ hospitality-ai-briefings/
 ├── briefings/                       Markdown output, one file per edition
 ├── index.html                       Dashboard / rendering site
 ├── CNAME                            Custom domain config for GitHub Pages
+├── CHANGELOG.md
 └── README.md
 ```
 
