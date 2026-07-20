@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitality AI Briefing — Friday, 3 July 2026</title>
+  <meta name="description" content="The restaurant reservation stack is consolidating at extraordinary speed, and the acquisitions are reshaping who controls the guest relationship.">
+  <link rel="canonical" href="https://briefings.inverisla.com/briefings/2026-07-03.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --accent: #c9a96a;        /* changed from #c8401a — matches inverisla gold */
+      --accent-light: #d9c089;  /* lighter gold variant */
+      --muted: #7a7060;
+      --border: #d4cdc0;
+      --signal: #1a6e3c;
+      --noise: #8b3a1a;
+      --watch: #1a3a6e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 2rem 3rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .masthead-left {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .masthead-title {
+      text-align: center;
+    }
+
+    .masthead-title h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .masthead-title .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .masthead-right {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .masthead-right .edition {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    /* TICKER BAR */
+    .ticker {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.5rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 40s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker-sep {
+      color: var(--accent);
+      margin: 0 1.5rem;
+    }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    /* ARCHIVE NAV */
+    .archive-bar {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .archive-bar::-webkit-scrollbar { display: none; }
+
+    .archive-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--muted);
+      white-space: nowrap;
+      transition: all 0.15s;
+      border-right: 1px solid var(--border);
+    }
+
+    .archive-btn:first-child { border-left: 1px solid var(--border); }
+
+    .archive-btn:hover { background: var(--cream); color: var(--ink); }
+
+    .archive-btn.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* MAIN CONTENT */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 0;
+      min-height: 70vh;
+    }
+
+    /* BRIEFING CONTENT */
+    .briefing-content {
+      border-right: 1px solid var(--border);
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .briefing-date-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .briefing-date-header .date-label {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .briefing-date-header .date-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Rendered markdown styles */
+    .briefing-body h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .briefing-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+    .briefing-body h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .briefing-body p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #2a2520;
+      margin-bottom: 0.75rem;
+    }
+
+    .briefing-body strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .briefing-body ul, .briefing-body ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .briefing-body li {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #2a2520;
+      margin-bottom: 0.3rem;
+    }
+
+    .briefing-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .briefing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .briefing-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--cream);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-weight: 400;
+    }
+
+    .briefing-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+      color: #2a2520;
+    }
+
+    .briefing-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .briefing-table tr:hover td {
+      background: var(--cream);
+    }
+
+    /* Links */
+    .briefing-body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: border-color 0.15s;
+    }
+
+    .briefing-body a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    /* Cluster cards */
+    .cluster-card {
+      background: var(--cream);
+      border-left: 3px solid var(--accent);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .cluster-card .so-what {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .tag-signal { background: #d4ede0; color: var(--signal); }
+    .tag-noise { background: #f0ddd5; color: var(--noise); }
+    .tag-watch { background: #d5dded; color: var(--watch); }
+    .tag-data { background: #ede8d5; color: #5a4a1a; }
+
+    /* SIDEBAR */
+    .sidebar {
+      padding: 2rem 0 2rem 2rem;
+    }
+
+    .sidebar-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-section:last-child { border-bottom: none; }
+
+    .sidebar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-item {
+      margin-bottom: 1rem;
+    }
+
+    .stat-number {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      line-height: 1.3;
+    }
+
+    .domain-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin: 0.2rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .domain-pill:hover, .domain-pill.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40vh;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .loading-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 4rem 0;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 3px double var(--ink);
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    footer .footer-left {
+      font-family: 'Fraunces', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    footer .footer-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .masthead { grid-template-columns: 1fr; text-align: center; padding: 1.5rem; }
+      .masthead-left, .masthead-right { display: none; }
+      .container { padding: 0 1.5rem; }
+      .main-grid { grid-template-columns: 1fr; }
+      .briefing-content { border-right: none; padding: 1.5rem 0; }
+      .sidebar { padding: 1.5rem 0; border-top: 1px solid var(--border); }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+
+    /* Data points callout */
+    .data-points {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 2px;
+      list-style: none;
+      padding-left: 1.5rem;
+    }
+
+    .data-points li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dotted var(--border);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .data-points li:last-child {
+      border-bottom: none;
+    }
+
+    .data-points li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+      top: 0.6rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-left">
+      Hospitality Technology Intelligence<br>
+      AI Readiness & Strategy Monitor
+    </div>
+    <div class="masthead-title">
+      <h1>The Daily Brief</h1>
+      <div class="subtitle">AI in Hospitality &nbsp;·&nbsp; Signal Over Noise</div>
+    </div>
+    <div class="masthead-right">
+      <div class="edition" id="current-date-display">Friday, 3 July 2026</div>
+      <div style="margin-top: 0.3rem;">Independent Intelligence</div>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <span class="ticker-inner" id="ticker-content">Signal over noise · Vendor independent</span>
+  </div>
+
+  <div class="container">
+
+    <!-- ARCHIVE NAV -->
+    <nav class="archive-bar" id="archive-nav"><a class="archive-btn " href="/briefings/2026-07-20.html">20 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-17.html">17 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-15.html">15 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-13.html">13 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-10.html">10 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-08.html">8 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-06.html">6 Jul</a>
+      <a class="archive-btn active" href="/briefings/2026-07-03.html">3 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-01.html">1 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-06-29.html">29 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-26.html">26 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-24.html">24 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-22.html">22 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-19.html">19 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-17.html">17 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-15.html">15 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-12.html">12 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-10.html">10 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-08.html">8 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-05.html">5 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-03.html">3 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-01.html">1 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-05-29.html">29 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-27.html">27 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-25.html">25 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-22.html">22 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-20.html">20 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-16.html">16 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-15.html">15 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-14.html">14 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-13.html">13 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-12.html">12 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-11.html">11 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-10.html">10 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-09.html">9 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-08.html">8 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-07.html">7 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-06.html">6 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-05.html">5 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-04.html">4 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-03.html">3 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-02.html">2 May</a>
+      <a class="archive-btn " href="/briefings/2026-04-30.html">30 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-29.html">29 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-28.html">28 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-27.html">27 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-26.html">26 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-25.html">25 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-18.html">18 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-17.html">17 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-16.html">16 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-15.html">15 Apr</a></nav>
+
+    <!-- MAIN -->
+    <div class="main-grid">
+      <main class="briefing-content">
+        <div id="briefing-output">
+        <div class="briefing-date-header">
+          <div class="date-label">Friday, 3 July 2026</div>
+          <div class="date-meta">Daily Intelligence Report</div>
+        </div>
+        <div class="briefing-body"><hr>
+<h1>HOSPITALITY AI BRIEFING — 3 JULY 2026</h1>
+<hr>
+<h2>FUNDING &amp; M&amp;A</h2>
+<p>The restaurant reservation stack is consolidating at extraordinary speed, and the acquisitions are reshaping who controls the guest relationship.</p>
+<p><strong>American Express</strong> announced the largest deal of the cycle: a proposed $700 million all-cash acquisition of TheFork from Tripadvisor, announced June 15. 
+TheFork connects millions of diners with more than 50,000 restaurants across 11 European countries. Together with Resy and Tock, the acquisition would expand American Express&#39; dining network to 75,000 bookable venues. The transaction is expected to close before the end of 2026, subject to labor consultation and regulatory approvals.</p>
+<p>TheFork turned over $232m in the year to the first quarter of 2026 and made $28m in adjusted earnings, making $700m roughly three times revenue — a premium for a profitable European platform.
+ Simultaneously, 
+American Express is combining its two U.S. reservation platforms into one under Resy this summer, bringing Tock&#39;s inventory of fine-dining restaurants and wineries to Resy for the first time. The merger will also activate a major partnership with POS provider Toast, connecting Resy guestbook data with Toast handheld devices to allow servers to view customer information such as wine preferences and birthdays.</p>
+<p><strong>DoorDash</strong> completed its counter-move earlier: 
+the delivery giant announced in June its $1.2 billion acquisition of SevenRooms, a reservation platform focused on direct bookings through a restaurant&#39;s own website. UberEats and Booking Holdings&#39; OpenTable also announced a partnership to integrate reservations on Uber&#39;s app.</p>
+<p>SevenRooms co-founder Joel Montaniel framed the integration plainly: &quot;Delivery and dine-in have typically been siloed data sets. If a customer has ordered six times and they&#39;re coming into the restaurant for the first time, are they a first-time customer or a seventh-time customer?&quot;</p>
+<p>On the hotel side, 
+hospitality technology startups raised more than $1 billion across 40 companies between April 2025 and March 2026, with property management systems and AI-led platforms attracting the largest share of investment.</p>
+<p>That shift was most visible in a 90-day burst between December 2025 and February 2026, when the sector&#39;s three biggest raises landed almost back-to-back: Mews ($300 million), Kindred ($125 million across two simultaneous rounds), and Limehome (€75 million).
+ The RTN news ticker as of July 3 also flags three fresh restaurant-side deals: Blink raises $17 million partnering with Shake Shack to advance frontline workforce tech; Liberty Mutual backs inKind with $320 million in financing to help restaurants access capital and drive guest demand; and GoTab acquires Fishbowl to bring guest marketing and loyalty deeper into restaurant commerce.</p>
+<p>Sources: <a href="https://www.businesswire.com/news/home/20260614939103/en/American-Express-Announces-Proposed-Acquisition-of-TheFork-a-Leading-European-Restaurant-Booking-Platform">BusinessWire – AmEx/TheFork</a>, <a href="https://www.cnbc.com/2026/02/25/doordash-resy-opentable-restaurant-reservation-wars.html">CNBC – Reservation Wars</a>, <a href="https://www.hotel-online.com/news/hospitality-tech-drew-over-1-billion-in-the-last-year-with-pms-and-ai-led-platforms-capturing-biggest-share">Hotel Online – $1B Hospitality Tech</a></p>
+<p><strong>So what:</strong> American Express has assembled the largest reservation network outside of OpenTable — ~75,000 venues globally — and is now the only player that can link payments, loyalty, reservations, and premium dining access in one ecosystem across the U.S. and Europe. For mid-market restaurant groups, the strategic question is no longer which reservation platform to use, but which platform <em>owns your guest data downstream.</em> The DoorDash/SevenRooms stack offers delivery-to-dine continuity; Resy/Tock/TheFork offers payment-loyalty integration; OpenTable/Uber offers scale. Operators should negotiate data portability rights before signing exclusivity clauses with any of these.</p>
+<hr>
+<h2>VENDOR MOVES</h2>
+<p>HITEC 2026 produced the densest cluster of hotel AI product launches seen in a single event, signalling that AI is moving from standalone tools into the core operating layer.</p>
+<p>The latest wave of product launches points to a market in which vendors are less focused on isolated tools and more focused on intelligence layers that connect the property management system, guest communications, network infrastructure, revenue management, procurement, access control, building operations, and commercial sales workflows.</p>
+<p><strong>Oracle Hospitality</strong> announced the Oracle OPERA Cloud Assistant, 
+embedding AI-powered capabilities directly into OPERA Cloud workflows — designed to support AI-assisted room assignments, AI-generated rate descriptions, operational guidance, and translation. When AI becomes embedded in the system of record used by front desk teams, revenue managers, and property leaders, it has the potential to shape everyday decisions rather than automate only a narrow task at the edge of the operation.</p>
+<p><strong>Revinate</strong> introduced Ivy, 
+an AI decision-intelligence layer built across its platform and designed to understand a hotel&#39;s guests, property, and brand voice — positioned to help hotels act on guest data more effectively, support direct revenue growth, and automate more of the communication and decision-making surrounding the guest journey, including automated call scoring and Revinate Chat.</p>
+<p><strong>RoomPriceGenie</strong> launched Price Explanations, 
+a feature that gives hoteliers plain-language context behind rate recommendations, including the market conditions, demand signals, and property settings that influence pricing decisions — addressing one of the biggest barriers to broader adoption of automated revenue management tools, particularly among smaller hotels and independent properties.</p>
+<p><strong>Grevon</strong> debuted at HITEC with Grevon Kore, 
+an MCP-based connectivity layer for hospitality, powering Pulse (an AI booking agent for hotel websites), Echo (an AI voice agent for inbound calls), and Ops (a staff intelligence platform) — pointing to an emerging competitive front in making official hotel content, rates, availability, and booking paths usable by AI agents.</p>
+<p>On the restaurant side, <strong>SevenRooms</strong> (owned by DoorDash) launched Channel Connect on June 17 — 
+a desktop app that aggregates reservations from various booking channels into a single system, while automatically updating a restaurant&#39;s inventory across those channels. SevenRooms is offering Channel Connect for free under an open license. In a blog post, the company stated: &quot;Channel Connect was built so that no single platform has to be the gatekeeper to your operations.&quot;
+ This is a direct response to OpenTable, which in April began requiring restaurant clients to make it their system of record.</p>
+<p><strong>Toast</strong> launched Toast Drive-Thru on April 14, 
+integrating POS, KDS, outdoor digital menu boards, and AI voice ordering partnerships. Steve Fredette, President and Co-Founder of Toast, said: &quot;In the drive-thru lane, every second matters. AI is giving brands new opportunities to impact this equation.&quot;
+ Toast also launched Toast Lab in June — 
+an incubator that will provide funding and tech for a new restaurant it will help operate in Boston, giving Toast a real-life proving ground for new technology, with winners announced later in 2026 and the restaurant slated to open in 2027.</p>
+<p><strong>Mews</strong> launched five new products at Unfold 2026, 
+completing an AI-native operating system that unifies PMS, RMS, messaging, automations, and accounts receivable on a single data model, citing 476% three-year ROI per IDC research.</p>
+<p>Mews RMS runs 150 million pricing calculations a day and executes rate changes against live demand without manual intervention, lifting total revenue per square meter up 13.7% on average against hotels with no RMS. Founder Richard Valtr called it &quot;hospitality&#39;s iPhone moment.&quot;</p>
+<p>Sources: <a href="https://hoteltechnologynews.com/2026/07/recent-hotel-technology-launches-show-ai-moving-from-standalone-tools-into-connected-hotel-operations/">Hotel Technology News – HITEC 2026</a>, <a href="https://www.nrn.com/restaurant-technology/sevenrooms-launches-a-reservations-aggregator-for-restaurants">NRN – SevenRooms Channel Connect</a>, <a href="https://www.businesswire.com/news/home/20260414359751/en/Toast-Launches-Unified-Drive-Thru-Solution-to-Modernize-Enterprise-Quick-Service-Restaurant-Operations">BusinessWire – Toast Drive-Thru</a></p>
+<div class="so-what"><strong>So what:</strong> The platform consolidation above is now echoed at the product level. Every category — PMS, RMS, guest comms, reservations, POS, drive-thru — is adding AI layers and fighting for workflow ownership. For an operator or PE-backed hospitality SaaS, the key evaluation question has shifted: does the AI layer explain its recommendations (RoomPriceGenie&#39;s Price Explanations is the right model), and does it sit on a unified data layer or is it bolted onto a fragmented stack?</div>
+<hr>
+<h2>AI VISIBILITY &amp; DISCOVERY</h2>
+<p>The agentic booking race has a leader in the early stages, and it may not be who hospitality operators were expecting.</p>
+<p><strong>Google</strong> introduced agentic restaurant booking capabilities in AI Mode in April 2026, first in the UK and expanding to eight countries including Australia, Canada, and India. 
+Google AI Mode had reached 75 million daily active users by January 2026. Users can describe what they want in natural language — specifying time, location, cuisine, party size, or ambiance — and AI Mode searches multiple reservation platforms to surface bookable options. Google pointed to rising consumer interest as context: UK searches for &quot;when to book a table&quot; surged 140% in 2026.</p>
+<p>Two weeks after launching agentic bookings for restaurants, Google confirmed it is developing similar capabilities for hotel and flight reservations, working with Booking.com, Expedia, Marriott International, IHG Hotels &amp; Resorts, Choice Hotels, and Wyndham. The company said specifics are still being worked out and it did not provide a launch timeline.</p>
+<p><strong>OpenAI</strong> has taken the opposite approach: 
+OpenAI announced it is pivoting away from addressing booking transactions — it will be a discovery layer only.</p>
+<p>The OTA positioning in this environment deserves close reading. 
+On April 28, 2026, Booking Holdings CEO Glenn Fogel told analysts the company was working closely with OpenAI and Google to ensure Booking&#39;s supply is discoverable wherever travelers begin their journey. Hospitality.today analysis found that AI-referred travelers who arrived with high intent converted 28% less than other visitors — not failing to book, but completing their journey through a conversion layer that routes to whoever holds the strongest position in it.
+ Expedia CEO Ariane Gorin&#39;s framing was equally explicit: 
+the discovery layer hotels are building eligibility for may become a paid channel — one where OTAs, with their marketing budgets and existing platform relationships, hold the same structural advantages they&#39;ve held in every previous iteration of this contest.</p>
+<p>Around 37% of travelers now use large language models integrated into travel websites to plan and book their trips as of early 2026.</p>
+<p>Sources: <a href="https://www.hospitality.today/article/hotels-are-building-the-ai-discovery-layer-otas-are-harvesting-it">Hospitality.today – Hotels building AI discovery layer</a>, <a href="https://restauranttechnologynews.com/2026/04/google-introduces-ai-powered-restaurant-booking-as-search-evolves-into-action/">RTN – Google AI Restaurant Booking</a>, <a href="https://www.phocuswire.com/google-agentic-travel-booking-ai">PhocusWire – Google hotel/flight bookings coming</a></p>
+<div class="so-what"><strong>So what:</strong> The hospitality.today analysis is the clearest-eyed piece of the cycle. Hotels investing in machine-readable content, MCP connectors, and GEO are solving a real discovery problem — but the conversion layer is already owned. Operators building AI-eligibility infrastructure without simultaneously hardening direct booking conversion (rates, content, loyalty) are paying for the top of a funnel that OTAs collect at the bottom. The priority action is auditing whether direct booking engines can match or beat OTA conversion rates for AI-referred traffic specifically.</div>
+<hr>
+<h2>OPERATIONAL AI</h2>
+<p>AI is moving into restaurant back-offices and hotel operations at measurable, if unglamorous, scale.</p>
+<p>Toast IQ, over the past year, has moved beyond simple data reporting to provide proactive, actionable insights — identifying top-performing menu items, flagging labor cost variances, and anticipating local market trends that could impact staffing. Over half of Toast&#39;s locations collectively adopted these intelligent tools within months of launch.</p>
+<p>A State of Digital report from tech supplier Qu found that among limited-service brands already using AI, only 9% say it has had a meaningful impact so far, and 43% describe the value as limited. More than a third of brands said fragmented systems and siloed data are actively getting in the way of their tech investments performing.</p>
+<p>Restaurant analytics platform Tenzo reports that its AI layer connected to an entire tech stack can flag when a site&#39;s labour percentage, food cost, or review score drifts outside its normal range in time to act. Operators note that the questions they most need to answer are almost always multi-source questions — labour and covers, sales and reviews — and those questions are hard to answer when data lives in separate tools that don&#39;t talk to each other.</p>
+<p>Sources: <a href="https://www.businesswire.com/news/home/20260414359751/en/Toast-Launches-Unified-Drive-Thru-Solution-to-Modernize-Enterprise-Quick-Service-Restaurant-Operations">BusinessWire – Toast IQ</a>, <a href="https://www.restaurant365.com/guides/ai-for-restaurants-roi-2026/">Restaurant365 – AI ROI 2026</a>, <a href="https://www.gotenzo.com/resources/insight/what-can-ai-do-for-restaurants-in-2026/">Tenzo</a></p>
+<div class="so-what"><strong>So what:</strong> The Qu data is the most honest benchmark in the cycle. 9% meaningful impact among AI adopters in limited-service is not a failure of the technology — it is a failure of data infrastructure. The operators getting real returns are those who have unified POS, labor, and inventory data first. For multi-unit operators still running fragmented stacks, there is no shortcut: data unification precedes AI value.</div>
+<hr>
+<h2>PEOPLE &amp; SKILLS</h2>
+<p><strong>American Express and Resy</strong>, in partnership with the National Restaurant Association Educational Foundation, launched Restaurant Academy on July 1 — 
+a new national leadership development program designed specifically for restaurant leaders, equipping owners and managers with practical tools to build stronger teams, enhance the guest experience, strengthen business resilience, and connect with peers. The program includes engagement with James Beard Award Winners Mashama Bailey, Gregory Gourdet, and Nok Suntaranon.</p>
+<p>Restaurant Academy will bring together 30 restaurant leaders from across the country from September 2026 through March 2027.</p>
+<p>Sources: <a href="https://www.prnewswire.com/news-releases/american-express-and-resy-with-national-restaurant-association-educational-foundation-launch-new-restaurant-academy-to-develop-the-next-generation-of-restaurant-leaders-302815742.html">PRNewswire – Restaurant Academy</a></p>
+<div class="so-what"><strong>So what:</strong> This is soft power from Resy — building platform loyalty through operator education rather than feature marketing. For competing reservation platforms, the implication is clear: the loyalty battle is being fought at the operator relationship layer, not just the diner layer. It also signals AmEx/Resy is positioning itself as a hospitality institution, not just a booking tool.</div>
+<hr>
+<h2>GOVERNANCE &amp; SECURITY</h2>
+<p>The regulatory and security environment for hospitality AI hardened significantly in recent weeks.</p>
+<p>On June 2, 2026, the White House issued an Executive Order titled &quot;Promoting Advanced Artificial Intelligence Innovation and Security.&quot; The Order extends AI-enabled cybersecurity services to operators of critical infrastructure — operators not unlike a large connected resort: locally significant, economically load-bearing, and historically under-resourced on security. Over time, hospitality environments may find themselves drawn into broader resilience and cybersecurity expectations through regulation, insurance, or brand-standard pressure.</p>
+<p>Future RFPs are likely to embed AI-governance questionnaires, cybersecurity-maturity scoring, operational-resilience validation, and AI-accountability assessments. Cyber insurers are likely to require penetration testing, governance evidence, operational safeguards, and incident response frameworks. Vendors unable to demonstrate maturity may face higher premiums, failed procurement reviews, or exclusion from enterprise deployments altogether.</p>
+<p>The RH-ISAC 2026 CISO Benchmark Report confirms how acute the perception has become: 
+based on insights from more than 200 Chief Information Security Officers across retail and hospitality, AI now tops the list of friction points for CISOs, ahead of ransomware and phishing, with 71% identifying AI as a primary concern citing risks such as data leakage, insider misuse, and insufficient governance controls. Seventy percent of CISOs reported that AI has been added to their scope of responsibility.</p>
+<p>A concrete example of the risk: 
+in March 2026, CyberNews discovered that an attacker had compromised the credentials of accounts on Chekin and Gastrodat, obtaining plain-text copies of usernames, passwords, and tokens. Between January 2025 and February 2026, at least 20 separate security incidents occurred across AI-powered applications, with nearly all having preventable causes like mishandled credentials or lax authentication.</p>
+<p>Sources: <a href="https://www.hospitalitynet.org/opinion/4132771/when-national-ai-security-becomes-a-hospitality-imperative">Hospitalitynet – White House EO</a>, <a href="https://www.prnewswire.com/news-releases/ciso-benchmark-report-finds-ai-driving-new-era-of-cybersecurity-risk-and-investment-in-retail-and-hospitality-302730923.html">PRNewswire – RH-ISAC CISO Benchmark</a>, <a href="https://hoteltechnologynews.com/2026/05/why-hotel-ai-adoption-is-moving-faster-than-security-controls-and-increasing-risk-exposure/">Hotel Technology News – AI Adoption Outpacing Security</a></p>
+<div class="so-what"><strong>So what:</strong> The governance gap is compressing fast. Hotels that deployed AI chatbots and agentic tools without formal governance are now exposed to both regulatory and insurance risk. The immediate priority is an AI inventory audit — know every system that touches reservations, payments, or guest PII, and whether each one has an auditable log and human override mechanism.</div>
+<hr>
+<h2>AGENTWASHING</h2>
+<div class="table-wrap"><table class="briefing-table">
+<thead>
+<tr>
+<th>Vendor</th>
+<th>Claim</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Mews</strong></td>
+<td>&quot;AI-native Operating System&quot; — 150M pricing calculations/day, 13.7% revenue uplift, 476% 3-year ROI (IDC)</td>
+<td><strong>Signal</strong> — Specific metrics with named research methodology; 15,000 customers provides sample size.</td>
+</tr>
+<tr>
+<td><strong>Toast IQ</strong></td>
+<td>&quot;Conversational AI&quot; that turns billions of data points into actionable insights; 50%+ location adoption within months</td>
+<td><strong>Signal</strong> — Adoption metric is operator-verified; specific use cases (86ing items, shift clock-outs) evidence real workflow integration, not a chat wrapper.</td>
+</tr>
+<tr>
+<td><strong>Revinate Ivy</strong></td>
+<td>&quot;AI decision-intelligence layer&quot; across the entire platform — guest data, brand voice, reservations call floor</td>
+<td><strong>Watch</strong> — Compelling architecture claim, automated call scoring is verifiable, but no third-party outcome data on revenue lift or NPS improvement yet.</td>
+</tr>
+<tr>
+<td><strong>Grevon Kore</strong></td>
+<td>MCP-based booking agent — Pulse, Echo, Ops — launched at HITEC 2026</td>
+<td><strong>Watch</strong> — Architecture is genuinely MCP-native (the right approach), but brand-new; zero operating track record in production.</td>
+</tr>
+<tr>
+<td><strong>RoomPriceGenie</strong></td>
+<td>Price Explanations — plain-language context behind rate recommendations</td>
+<td><strong>Signal</strong> — Directly addresses the adoption blocker (black-box trust), not a new feature category. Mechanistically simple and auditable by design.</td>
+</tr>
+<tr>
+<td><strong>SevenRooms Channel Connect</strong></td>
+<td>Free open-license reservation aggregator for any restaurant, pulling from all major platforms</td>
+<td><strong>Signal</strong> — Open license and cross-competitor aggregation are structurally genuine; the &quot;free and open&quot; positioning is a direct platform-control counter-move, not a marketing claim.</td>
+</tr>
+<tr>
+<td><strong>DoorDash</strong> (re: Zesty shutdown)</td>
+<td>&quot;AI discovery embedded in core app&quot; after Zesty standalone failed</td>
+<td><strong>Noise</strong> — A product failure reframed as strategy. The underlying conversational search capabilities exist but have no published adoption metrics post-integration.</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>DATA POINTS FOR COMMERCIAL CASE</h2>
+<ul class="data-points">
+<li>American Express proposes to acquire TheFork from Tripadvisor for $700 million, creating a 75,000-venue dining network spanning the US and Europe. (<a href="https://www.businesswire.com/news/home/20260614939103/en/American-Express-Announces-Proposed-Acquisition-of-TheFork-a-Leading-European-Restaurant-Booking-Platform">BusinessWire</a>)</li>
+<li>DoorDash acquired SevenRooms for $1.2 billion, the largest restaurant tech acquisition of the current cycle. (<a href="https://www.cnbc.com/2026/02/25/doordash-resy-opentable-restaurant-reservation-wars.html">CNBC</a>)</li>
+<li>Hospitality technology startups raised more than $1 billion across 40 companies between April 2025 and March 2026, with PMS platforms capturing $408 million of the total. (<a href="https://www.hotel-online.com/news/hospitality-tech-drew-over-1-billion-in-the-last-year-with-pms-and-ai-led-platforms-capturing-biggest-share">Hotel Online</a>)</li>
+<li>26% of restaurant operators are now using AI-related tools, per the NRA&#39;s State of the Restaurant Industry 2026 report. (<a href="https://www.restaurantdive.com/news/national-restaurant-assocation-operator-artificial-intelligence-adoption/812418/">Restaurant Dive</a>)</li>
+<li>Among limited-service brands already using AI, only 9% say it has had a meaningful impact; 43% describe the value as limited; more than a third cite fragmented systems as the core barrier. (<a href="https://www.restaurant365.com/guides/ai-for-restaurants-roi-2026/">Restaurant365</a>)</li>
+<li>37% of travelers now use LLMs integrated into travel websites to plan and book trips. (<a href="https://www.altexsoft.com/blog/agentic-ai-vs-ota-hospitality/">AltexSoft/Ira Vouk</a>)</li>
+<li>Google AI Mode reached 75 million daily active users by January 2026; UK searches for &quot;when to book a table&quot; surged 140% in 2026. (<a href="https://opentools.ai/news/googles-ai-mode-takes-center-stage-restaurant-booking-expands-to-eight-new-countries">AI News/OpenTools</a>)</li>
+<li>71% of retail and hospitality CISOs now identify AI as their primary cybersecurity concern, ahead of ransomware and phishing. (<a href="https://www.prnewswire.com/news-releases/ciso-benchmark-report-finds-ai-driving-new-era-of-cybersecurity-risk-and-investment-in-retail-and-hospitality-302730923.html">RH-ISAC/PRNewswire</a>)</li>
+<li>70% of retail and hospitality CISOs report AI governance has been added to their scope of responsibility. (<a href="https://www.cybersecuritydive.com/news/retail-hospitality-ai-cybersecurity-cisos-survey/816460/">Cybersecurity Dive</a>)</li>
+<li>Mews RMS runs 150 million pricing calculations per day and delivers a 13.7% average total revenue per square meter uplift versus hotels with no RMS, per Mews Unfold 2026. (<a href="https://www.hospitalitynet.org/news/4132634/mews-unveils-the-operating-system-for-hospitality">Hospitalitynet</a>)</li>
+<li>Hotels using AI-driven revenue management report an estimated 17% increase in total revenue vs. non-adopters; 86% of hoteliers say they rely on AI for forecasting and demand analytics. (<a href="https://hoteltechnologynews.com/2025/11/how-ai-will-rewrite-hotel-revenue-management-systems-in-2026/">Hotel Technology News</a>)</li>
+<li>AI-referred hotel guests converted 28% less than other visitors — not because they didn&#39;t book, but because they completed the journey through OTA conversion layers. (<a href="https://www.hospitality.today/article/hotels-are-building-the-ai-discovery-layer-otas-are-harvesting-it">Hospitality.today</a>)</li>
+<li>Between January 2025 and February 2026, at least 20 separate security incidents occurred across AI-powered hospitality applications, nearly all with preventable causes. (<a href="https://hoteltechnologynews.com/2026/05/why-hotel-ai-adoption-is-moving-faster-than-security-controls-and-increasing-risk-exposure/">Hotel Technology News</a>)</li>
+</ul>
+<hr>
+<h2>WHO TO WATCH</h2>
+<p><strong>Rafa Marquez (President of International Card Services, American Express)</strong> — His articulation that &quot;dining is one of the most important ways people engage with our brand&quot; is the explicit strategy behind three acquisitions totalling over $1.1 billion. With TheFork pending and Resy/Tock already merged, he is building the first genuinely global, card-linked dining reservation ecosystem. Watch whether Amex uses this to introduce dynamic pricing or access tiers that move the reservation from a free utility to a premium product.</p>
+<p><strong>Joel Montaniel (CEO, SevenRooms/DoorDash)</strong> — The Channel Connect launch — free, open, cross-competitor aggregation — is the most strategically interesting restaurant tech move of the month. &quot;More tables for diners, one book for restaurants&quot; positions SevenRooms as infrastructure rather than a closed platform, directly countering OpenTable&#39;s exclusivity push. Whether this is genuine operator-first strategy or a long-game data acquisition play is the question to watch over the next six months.</p>
+<p><strong>Julie Farago (VP Engineering, Travel &amp; Local Search, Google)</strong> — Her framing that Google wants to be &quot;super thoughtful&quot; about agentic hotel bookings while already live with restaurant reservations in eight countries reveals the sequencing: restaurants first (low-risk, high-frequency), hotels next. The partner list — Booking.com, Expedia, Marriott, IHG, Choice, Wyndham — suggests Google will route through intermediaries rather than disintermediate them, consistent with the hospitality.today OTA analysis.</p>
+<p><strong>Markus Busch (Editor/Publisher, Hospitality.today)</strong> — His June 24 piece &quot;Hotels are building the AI discovery layer. OTAs are harvesting it&quot; is the sharpest analytical framing of the agentic distribution question this cycle. The observation that OTA advantages &quot;transferred into AI eligibility without OTAs having to rebuild anything&quot; deserves to be the starting point for any hotel group&#39;s AI distribution strategy conversation.</p>
+<p><strong>Terence Ronson (Founder, Pertlink Limited)</strong> — His white paper translating the White House June 2 AI Executive Order into hotel operational priorities is the most thorough governance briefing produced for the sector this month. The core argument — that the more intelligent a hotel becomes, the more strategically exposed it becomes — frames a risk that most operators are not yet treating as operational.</p>
+<hr>
+</div></div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-label">This Edition</div>
+          <div id="sidebar-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="stat-clusters">6</div>
+              <div class="stat-label">Signal clusters identified</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-flags">7</div>
+              <div class="stat-label">Vendor claims assessed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-sources">16</div>
+              <div class="stat-label">Sources cited</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Filter by Domain</div>
+          <div id="domain-filters">
+            <span class="domain-pill active" data-domain="all">All</span>
+            <span class="domain-pill" data-domain="data">Data & Integration</span>
+            <span class="domain-pill" data-domain="visibility">AI Visibility</span>
+            <span class="domain-pill" data-domain="vendor">Vendor Moves</span>
+            <span class="domain-pill" data-domain="ops">Operational AI</span>
+            <span class="domain-pill" data-domain="people">People & Skills</span>
+            <span class="domain-pill" data-domain="governance">Governance</span>
+            <span class="domain-pill" data-domain="funding">Funding & M&A</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Archive</div>
+          <div id="sidebar-archive" style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); line-height: 2;"><div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-20.html" style="color: inherit; text-decoration: none;">Monday, 20 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-17.html" style="color: inherit; text-decoration: none;">Friday, 17 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-15.html" style="color: inherit; text-decoration: none;">Wednesday, 15 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-13.html" style="color: inherit; text-decoration: none;">Monday, 13 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-10.html" style="color: inherit; text-decoration: none;">Friday, 10 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-08.html" style="color: inherit; text-decoration: none;">Wednesday, 8 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-06.html" style="color: inherit; text-decoration: none;">Monday, 6 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-03.html" style="color: inherit; text-decoration: none;">Friday, 3 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-07-01.html" style="color: inherit; text-decoration: none;">Wednesday, 1 July 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-06-29.html" style="color: inherit; text-decoration: none;">Monday, 29 June 2026</a></div></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">About</div>
+          <p style="font-size: 0.78rem; color: var(--muted); line-height: 1.6;">
+            Hospitality AI intelligence for operators and PE-backed SaaS companies. 
+            Signal-first. Vendor-independent. Generated three times a week by an 
+            autonomous research agent scanning 15+ trade press, research, and 
+            technology sources.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">A publication from <a href="https://inverisla.com">Inverisla</a></div>
+    <div class="footer-right">Generated Mon/Wed/Fri · Signal over noise · Vendor independent</div>
+  </footer>
+
+  <script>
+    // Cosmetic only: domain pill active state (filtering not yet implemented)
+    document.querySelectorAll('.domain-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.domain-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
