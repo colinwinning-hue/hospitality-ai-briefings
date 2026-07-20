@@ -1,0 +1,35 @@
+# Rebuilds the static site when briefing markdown, the template, or the build
+# script change via a manual commit. Note: pushes made by daily-briefing.yml
+# use GITHUB_TOKEN and will NOT trigger this workflow — that is why
+# daily-briefing.yml runs the same build step itself before committing.
+name: Build static site
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'briefings/**.md'
+      - 'templates/**'
+      - 'scripts/**'
+  workflow_dispatch:
+concurrency: build-site
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build
+        run: |
+          npm ci
+          node scripts/build.js
+      - name: Commit generated site
+        run: |
+          git config user.name "Site Builder"
+          git config user.email "actions@github.com"
+          git add index.html archive.html sitemap.xml briefings/*.html
+          git diff --staged --quiet || git commit -m "Build site: $(date +%Y-%m-%d)"
+          git push
