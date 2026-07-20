@@ -104,10 +104,20 @@ jobs:
             } > "briefings/$DATE.md"
           fi
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Render static site
+        run: |
+          npm ci
+          node scripts/build.js
+
       - name: Commit briefing to repo
         run: |
           git config user.name "Hospitality AI Monitor"
           git config user.email "actions@github.com"
-          git add briefings/
+          git add briefings/ index.html archive.html sitemap.xml
           git diff --staged --quiet || git commit -m "Briefing: $(date +%Y-%m-%d)"
           git push

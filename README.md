@@ -71,3 +71,13 @@ The current configuration enforces:
 Published by [Inverisla](https://inverisla.com) — independent advisory for hospitality technology and AI.
 
 The story of building this tool, including the cost iterations and the rate limit diagnosis, is at [inverisla.com/writing/intelligence-briefing-tool](https://inverisla.com/writing/intelligence-briefing-tool).
+
+## Static build (added July 2026)
+
+The site is now rendered at build time so all content is present in raw HTML for AI crawlers and non-JS fetchers. `index.html`, `archive.html`, `sitemap.xml` and `briefings/*.html` are **generated** — do not edit them by hand. Edit `templates/page.html` to change the design and `scripts/build.js` to change rendering.
+
+- `scripts/build.js` converts every `briefings/YYYY-MM-DD.md` into `briefings/YYYY-MM-DD.html` (permanent URL), inlines the latest briefing into `index.html`, and emits `archive.html` and `sitemap.xml`.
+- `daily-briefing.yml` runs the build after the agent commits a new markdown briefing.
+- `build-site.yml` rebuilds on manual pushes to `briefings/**.md`, `templates/**` or `scripts/**` (Actions-token pushes from the daily workflow do not trigger it, which is why the daily workflow builds itself).
+- Run locally: `npm install && npm run build`.
+- `robots.txt` allows all crawlers and points at the sitemap. Check the Cloudflare zone isn't serving a managed robots.txt over the top of it.
