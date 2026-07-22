@@ -15,7 +15,8 @@ jobs:
       - name: Create session
         id: create_session
         run: |
-          SESSION=$(curl -sS --fail-with-body \
+          BODY=$(mktemp)
+          HTTP=$(curl -sS -o "$BODY" -w '%{http_code}' \
             https://api.anthropic.com/v1/sessions \
             -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
             -H "anthropic-version: 2023-06-01" \
@@ -26,7 +27,10 @@ jobs:
               "environment_id": "env_01QFEq9dNeWPGWX9Qm2U1Vb2",
               "title": "Briefing '"$(date +%Y-%m-%d)"'"
             }')
-          echo "session_id=$(echo $SESSION | jq -r '.id')" >> $GITHUB_OUTPUT
+          echo "API returned $HTTP"
+          cat "$BODY"
+          [ "$HTTP" = "200" ] || exit 1
+          echo "session_id=$(jq -r '.id' "$BODY")" >> "$GITHUB_OUTPUT"
 
       - name: Send trigger message
         run: |
