@@ -1,7 +1,7 @@
 name: Hospitality AI Daily Briefing
 on:
   schedule:
-    - cron: '0 7,16 * * 1,3,5'  # 7am UTC M/W/F
+    - cron: '0 7 * * 1,3,5'  # 7am UTC M/W/F
   workflow_dispatch:      # manual trigger from Actions tab
 jobs:
   run-briefing:
@@ -32,6 +32,30 @@ jobs:
           [ "$HTTP" = "200" ] || exit 1
           echo "session_id=$(jq -r '.id' "$BODY")" >> "$GITHUB_OUTPUT"
 
+      - name: Build trigger message
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          # Real briefings only: date-named files that aren't failure/timeout stubs, excluding today
+          RECENT=$(ls briefings/*.md 2>/dev/null | grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}\.md$' | grep -v "/$TODAY.md" \
+            | xargs -r grep -L -e '_Briefing run failed._' -e '_Briefing run timed out._' | sort | tail -3)
+          PREV=$(echo "$RECENT" | tail -1 | sed -E 's#.*/([0-9-]+)\.md#\1#')
+          SINCE=${PREV:-$(date -u -d '3 days ago' +%Y-%m-%d)}
+          if [ -n "$RECENT" ]; then
+            URLS=$(grep -ohE '\]\(https?://[^)]+\)' $RECENT | sed -E 's/^\]\(//; s/\)$//' | grep -v 'inverisla.com' | sort -u | head -150)
+            PEOPLE=$(awk '/^## WHO TO WATCH/{f=1;next} /^## /{f=0} f' $RECENT | grep -oE '^\*\*[^*(]+' | sed -E 's/^\*\*//; s/ +$//' | sort -u | paste -sd ',' - | sed 's/,/, /g')
+          fi
+          MSG="Today is $TODAY. Cover hospitality AI news published or announced between $SINCE and $TODAY inclusive. That is the window.
+
+          ALREADY COVERED in the last three briefings. Do not report these again unless there is a materially new development inside the window.
+
+          URLs:
+          ${URLS:-none}
+
+          People already featured in Who to Watch: ${PEOPLE:-none}"
+          echo "Window: $SINCE to $TODAY"
+          echo "Already covered: $(echo "$URLS" | grep -c . ) URLs; people: ${PEOPLE:-none}"
+          jq -n --arg t "$MSG" '{events: [{type: "user.message", content: [{type: "text", text: $t}]}]}' > trigger.json
+
       - name: Send trigger message
         run: |
           curl -sS --fail-with-body \
@@ -40,7 +64,7 @@ jobs:
             -H "anthropic-version: 2023-06-01" \
             -H "anthropic-beta: managed-agents-2026-04-01" \
             -H "content-type: application/json" \
-            -d '{"events": [{"type": "user.message", "content": [{"type": "text", "text": "Run a briefing covering the last 2-3 days of hospitality AI news."}]}]}'
+            -d @trigger.json
 
       - name: Poll for completion
         id: poll
