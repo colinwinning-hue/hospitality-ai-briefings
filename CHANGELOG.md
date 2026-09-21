@@ -2,6 +2,15 @@
 
 Notable changes to the agent prompt, workflow, and site. Dates reflect when the change was applied.
 
+## 2026-09-21
+
+### Repetition fix
+- Briefings were recycling the same stories run to run: no date window, no memory of prior editions, mandatory sections padded with old material, and the agent citing briefings.inverisla.com.
+- Workflow now builds the trigger message: explicit window (previous successful briefing date to today) plus an ALREADY COVERED list of URLs and Who to Watch names from the last three briefings.
+- Agent prompt: new FRESHNESS block. Items must be dated inside the window, dates shown on every development, own site banned as a source, empty domains omitted, quiet cycles allowed, watchlist nulls listed in one line, no self-written title.
+- Agentwashing, data points and Who to Watch limited to in-window material; Who to Watch capped at 3; explicit empty states for each.
+- Cron fixed from 07:00 and 16:00 to 07:00 only (the 16:00 run was overwriting the morning file).
+
 ## 2026-05-26
 
 - Versioned the agent configuration. Full Managed Agents YAML now lives in `agent/agent-config.yaml`.
