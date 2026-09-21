@@ -37,12 +37,12 @@ jobs:
           TODAY=$(date -u +%Y-%m-%d)
           # Real briefings only: date-named files that aren't failure/timeout stubs, excluding today
           RECENT=$(ls briefings/*.md 2>/dev/null | grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}\.md$' | grep -v "/$TODAY.md" \
-            | xargs -r grep -L -e '_Briefing run failed._' -e '_Briefing run timed out._' | sort | tail -3)
+            | xargs -r grep -L -e '_Briefing run failed._' -e '_Briefing run timed out._' | sort | tail -3) || true
           PREV=$(echo "$RECENT" | tail -1 | sed -E 's#.*/([0-9-]+)\.md#\1#')
           SINCE=${PREV:-$(date -u -d '3 days ago' +%Y-%m-%d)}
           if [ -n "$RECENT" ]; then
-            URLS=$(grep -ohE '\]\(https?://[^)]+\)' $RECENT | sed -E 's/^\]\(//; s/\)$//' | grep -v 'inverisla.com' | sort -u | head -150)
-            PEOPLE=$(awk '/^## WHO TO WATCH/{f=1;next} /^## /{f=0} f' $RECENT | grep -oE '^\*\*[^*(]+' | sed -E 's/^\*\*//; s/ +$//' | sort -u | paste -sd ',' - | sed 's/,/, /g')
+            URLS=$(grep -ohE '\]\(https?://[^)]+\)' $RECENT | sed -E 's/^\]\(//; s/\)$//' | grep -v 'inverisla.com' | sort -u | head -150) || true
+            PEOPLE=$(awk '/^## WHO TO WATCH/{f=1;next} /^## /{f=0} f' $RECENT | grep -oE '^\*\*[^*(]+' | sed -E 's/^\*\*//; s/ +$//' | sort -u | paste -sd ',' - | sed 's/,/, /g') || true
           fi
           MSG="Today is $TODAY. Cover hospitality AI news published or announced between $SINCE and $TODAY inclusive. That is the window.
 
