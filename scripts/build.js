@@ -25,10 +25,10 @@ const SITE = 'https://briefings.inverisla.com';
 // from Cloudflare → Analytics & Logs → Web Analytics → Add a site →
 // briefings.inverisla.com → "Manage site" → the token in the JS snippet.
 // Leave it empty and no beacon is added. The beacon sets no cookies.
-const CF_ANALYTICS_TOKEN = '';
+const CF_ANALYTICS_TOKEN = '6dc51b39b9a943e49c9c039781bef7a2';
 
 const ANALYTICS = CF_ANALYTICS_TOKEN
-  ? `  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${CF_ANALYTICS_TOKEN}"}'></script>\n`
+  ? `  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "${CF_ANALYTICS_TOKEN}"}'></script><!-- End Cloudflare Web Analytics -->\n`
   : '';
 
 const TEMPLATE = fs.readFileSync(path.join(ROOT, 'templates', 'page.html'), 'utf8')
