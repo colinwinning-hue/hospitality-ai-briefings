@@ -18,8 +18,21 @@ const { marked } = require('marked');
 
 const ROOT = path.join(__dirname, '..');
 const BRIEFINGS_DIR = path.join(ROOT, 'briefings');
-const TEMPLATE = fs.readFileSync(path.join(ROOT, 'templates', 'page.html'), 'utf8');
 const SITE = 'https://briefings.inverisla.com';
+
+// Cloudflare Web Analytics site token for briefings.inverisla.com. It is public
+// (it appears in every page), so it lives here rather than in a secret. Get it
+// from Cloudflare → Analytics & Logs → Web Analytics → Add a site →
+// briefings.inverisla.com → "Manage site" → the token in the JS snippet.
+// Leave it empty and no beacon is added. The beacon sets no cookies.
+const CF_ANALYTICS_TOKEN = '6dc51b39b9a943e49c9c039781bef7a2';
+
+const ANALYTICS = CF_ANALYTICS_TOKEN
+  ? `  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "${CF_ANALYTICS_TOKEN}"}'></script><!-- End Cloudflare Web Analytics -->\n`
+  : '';
+
+const TEMPLATE = fs.readFileSync(path.join(ROOT, 'templates', 'page.html'), 'utf8')
+  .replace(/%%ANALYTICS%%/g, ANALYTICS);
 
 marked.setOptions({ gfm: true, breaks: false, headerIds: false });
 
