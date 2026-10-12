@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitality AI Briefing — Monday, 12 October 2026</title>
+  <meta name="description" content="Window note: This is a deliberately thin four-day period. The burst of major announcements immediately preceding it — Toast IQ Team (Oct 6), OpenAI/Radi...">
+  <link rel="canonical" href="https://briefings.inverisla.com/briefings/2026-10-12.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --accent: #c9a96a;        /* changed from #c8401a — matches inverisla gold */
+      --accent-light: #d9c089;  /* lighter gold variant */
+      --muted: #7a7060;
+      --border: #d4cdc0;
+      --signal: #1a6e3c;
+      --noise: #8b3a1a;
+      --watch: #1a3a6e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 2rem 3rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .masthead-left {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .masthead-title {
+      text-align: center;
+    }
+
+    .masthead-title h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .masthead-title .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .masthead-right {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .masthead-right .edition {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    /* TICKER BAR */
+    .ticker {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.5rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 40s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker-sep {
+      color: var(--accent);
+      margin: 0 1.5rem;
+    }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    /* ARCHIVE NAV */
+    .archive-bar {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .archive-bar::-webkit-scrollbar { display: none; }
+
+    .archive-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--muted);
+      white-space: nowrap;
+      transition: all 0.15s;
+      border-right: 1px solid var(--border);
+    }
+
+    .archive-btn:first-child { border-left: 1px solid var(--border); }
+
+    .archive-btn:hover { background: var(--cream); color: var(--ink); }
+
+    .archive-btn.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* MAIN CONTENT */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 0;
+      min-height: 70vh;
+    }
+
+    /* BRIEFING CONTENT */
+    .briefing-content {
+      border-right: 1px solid var(--border);
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .briefing-date-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .briefing-date-header .date-label {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .briefing-date-header .date-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Rendered markdown styles */
+    .briefing-body h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .briefing-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+    .briefing-body h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .briefing-body p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #2a2520;
+      margin-bottom: 0.75rem;
+    }
+
+    .briefing-body strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .briefing-body ul, .briefing-body ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .briefing-body li {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #2a2520;
+      margin-bottom: 0.3rem;
+    }
+
+    .briefing-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .briefing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .briefing-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--cream);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-weight: 400;
+    }
+
+    .briefing-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+      color: #2a2520;
+    }
+
+    .briefing-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .briefing-table tr:hover td {
+      background: var(--cream);
+    }
+
+    /* Links */
+    .briefing-body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: border-color 0.15s;
+    }
+
+    .briefing-body a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    /* Cluster cards */
+    .cluster-card {
+      background: var(--cream);
+      border-left: 3px solid var(--accent);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .cluster-card .so-what {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .tag-signal { background: #d4ede0; color: var(--signal); }
+    .tag-noise { background: #f0ddd5; color: var(--noise); }
+    .tag-watch { background: #d5dded; color: var(--watch); }
+    .tag-data { background: #ede8d5; color: #5a4a1a; }
+
+    /* SIDEBAR */
+    .sidebar {
+      padding: 2rem 0 2rem 2rem;
+    }
+
+    .sidebar-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-section:last-child { border-bottom: none; }
+
+    .sidebar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-item {
+      margin-bottom: 1rem;
+    }
+
+    .stat-number {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      line-height: 1.3;
+    }
+
+    .domain-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin: 0.2rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .domain-pill:hover, .domain-pill.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40vh;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .loading-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 4rem 0;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 3px double var(--ink);
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    footer .footer-left {
+      font-family: 'Fraunces', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    footer .footer-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .masthead { grid-template-columns: 1fr; text-align: center; padding: 1.5rem; }
+      .masthead-left, .masthead-right { display: none; }
+      .container { padding: 0 1.5rem; }
+      .main-grid { grid-template-columns: 1fr; }
+      .briefing-content { border-right: none; padding: 1.5rem 0; }
+      .sidebar { padding: 1.5rem 0; border-top: 1px solid var(--border); }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+
+    /* Data points callout */
+    .data-points {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 2px;
+      list-style: none;
+      padding-left: 1.5rem;
+    }
+
+    .data-points li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dotted var(--border);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .data-points li:last-child {
+      border-bottom: none;
+    }
+
+    .data-points li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+      top: 0.6rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-left">
+      Hospitality Technology Intelligence<br>
+      AI Readiness & Strategy Monitor
+    </div>
+    <div class="masthead-title">
+      <h1>The Daily Brief</h1>
+      <div class="subtitle">AI in Hospitality &nbsp;·&nbsp; Signal Over Noise</div>
+    </div>
+    <div class="masthead-right">
+      <div class="edition" id="current-date-display">Monday, 12 October 2026</div>
+      <div style="margin-top: 0.3rem;">Independent Intelligence</div>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <span class="ticker-inner" id="ticker-content">Signal over noise · Vendor independent</span>
+  </div>
+
+  <div class="container">
+
+    <!-- ARCHIVE NAV -->
+    <nav class="archive-bar" id="archive-nav"><a class="archive-btn active" href="/briefings/2026-10-12.html">12 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-09.html">9 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-07.html">7 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-05.html">5 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-02.html">2 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-09-30.html">30 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-28.html">28 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-25.html">25 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-23.html">23 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-21.html">21 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-18.html">18 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-16.html">16 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-14.html">14 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-11.html">11 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-09.html">9 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-07.html">7 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-04.html">4 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-02.html">2 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-08-31.html">31 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-28.html">28 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-26.html">26 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-24.html">24 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-21.html">21 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-19.html">19 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-17.html">17 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-14.html">14 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-12.html">12 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-10.html">10 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-07.html">7 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-05.html">5 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-03.html">3 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-07-31.html">31 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-29.html">29 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-24.html">24 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-22.html">22 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-20.html">20 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-17.html">17 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-15.html">15 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-13.html">13 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-10.html">10 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-08.html">8 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-06.html">6 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-03.html">3 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-01.html">1 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-06-29.html">29 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-26.html">26 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-24.html">24 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-22.html">22 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-19.html">19 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-17.html">17 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-15.html">15 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-12.html">12 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-10.html">10 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-08.html">8 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-05.html">5 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-03.html">3 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-01.html">1 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-05-29.html">29 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-27.html">27 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-25.html">25 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-22.html">22 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-20.html">20 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-16.html">16 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-15.html">15 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-14.html">14 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-13.html">13 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-12.html">12 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-11.html">11 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-10.html">10 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-09.html">9 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-08.html">8 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-07.html">7 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-06.html">6 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-05.html">5 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-04.html">4 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-03.html">3 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-02.html">2 May</a>
+      <a class="archive-btn " href="/briefings/2026-04-30.html">30 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-29.html">29 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-28.html">28 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-27.html">27 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-26.html">26 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-25.html">25 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-18.html">18 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-17.html">17 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-16.html">16 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-15.html">15 Apr</a></nav>
+
+    <!-- MAIN -->
+    <div class="main-grid">
+      <main class="briefing-content">
+        <div id="briefing-output">
+        <div class="briefing-date-header">
+          <div class="date-label">Monday, 12 October 2026</div>
+          <div class="date-meta">Daily Intelligence Report</div>
+        </div>
+        <div class="briefing-body"><h2>HOSPITALITY AI BRIEFING — 9–12 OCTOBER 2026</h2>
+<p><strong>Window note:</strong> This is a deliberately thin four-day period. The burst of major announcements immediately preceding it — Toast IQ Team (Oct 6), OpenAI/Radisson results (Oct 7), Duetto/FLYR acquisition (Oct 8) — are all already covered. What follows is an honest account of what landed inside the window. The strongest signal of the cycle comes from the AI visibility research and from a distribution advantage that is taking years to replicate, not days.</p>
+<hr>
+<h2>AI Visibility &amp; Discovery</h2>
+<p>The AI hotel recommendation question has its first serious empirical answer, and the finding should recalibrate how operators think about optimisation.</p>
+<p><strong>Kollective Agency</strong> published the full results of its Boutique Hotel AI Index (HotelSpeak, Oct 6 — one business day before the window, included here given its direct relevance to the Oct 9 operator discussions). 
+The study ran 15 rounds of 300 questions — covering 100 global tourist destinations with boutique, romantic, and luxury intents — across five AI platforms (ChatGPT, Gemini, Copilot, Google AI Mode, Google AI Overviews), producing 22,500 primary answers and 28,600 total responses with control arms for phrasing, geography, and timing.</p>
+<p>The noise floor is high: asked the same question one hour apart, the same AI platform returned the same top-ranked hotel only 60.2% of the time. Across full answer lists, about two in three hotels named the first time reappeared an hour later; the rest were swapped for others from a wider pool.</p>
+<p>Day-to-day movement is mostly the platforms regenerating answers, not the market moving. But stretch the comparison to a month and real, slow drift appears — and it is not evenly distributed. ChatGPT drifts hardest, by some distance. Gemini and Google&#39;s AI surfaces drift gently. Copilot, alone, does not measurably drift at all.</p>
+<p>The pool, however, is not a blur: it is a barbell. A churning tail of hotels — 24.9% of all named — appeared in a single run and never again, together accounting for just 1.5% of all naming events. At the other end, hotels named in at least eight of the fifteen runs make up roughly 35% of the pool and carry 88% of all naming events. About three quarters of the first fortnight&#39;s core is still the core a fortnight later.</p>
+<p>Luxury queries draw on a median of 39 distinct hotels per query and hold the steadiest answers. Boutique queries draw on 52, churn hardest. Ask for luxury hotels and the five engines reach same-#1 agreement 17% of the time. Ask for boutique hotels and it is 3.5%; romantic, 3.7%.</p>
+<p>Both dials — phrasing and geography — move the answer more than time does. Asking with different words produced 40.0% same-#1 agreement against a floor of 55.7%. Asking from another country produced 46.7% against a floor of 54.4%. Phrasing moves the answer more than geography, and geography more than time.</p>
+<p>The report&#39;s operative conclusion: &quot;Chasing the number one slot in a system that re-deals it hourly is astrology. Joining the third of hotels that carry seven eighths of the visibility, and staying there across weeks, is a real objective.&quot;</p>
+<p><strong>Marriott&#39;s nine-year Alibaba partnership</strong> on the Fliggy platform has produced a structurally different AI distribution position than any of its rivals, as analysed in a Hospitality Net op-ed (Markus Busch, Oct 9). 
+Marriott&#39;s integration into Fliggy allows AI agents to book rooms and F&amp;B packages, including afternoon tea reservations, through conversational commands, while rival chains and independents remain limited to a basic five-field room search
+ on the same surfaces. This is not a UI advantage — it is a transactional depth advantage that took nearly a decade to build and cannot be replicated through a quick API connection.</p>
+<p>Sources: <a href="https://www.hotelspeak.com/2026/10/ai-hotel-recommendations-are-noisy-but-not-random/">HotelSpeak/Kollective Agency (Oct 6)</a> · <a href="https://www.hospitalitynet.org/opinion/4134826/in-china-the-ai-agent-can-already-sell-marriotts-afternoon-tea">Hospitality Net – Markus Busch (Oct 9)</a></p>
+<div class="so-what"><strong>So what:</strong> The Kollective data has two direct implications for mid-market operators. First, a single AI visibility audit is meaningless — the &quot;hand&quot; changes hourly, while the &quot;deck&quot; moves weekly. Ongoing measurement, per engine, per intent, and per market, is the minimum viable practice. Second, if your property competes in the boutique or romantic segment, the AI recommendation conversation is wide and fragmented enough that no single tactic will hold a top position; sustained content and citation presence across all five major surfaces is the only durable strategy. The Marriott/Fliggy finding is a warning for hotel brands that have not yet built transactional depth into AI surfaces: discovery without the ability to transact ancillaries hands the commercial uplift back to competitors.</div>
+<hr>
+<h2>Operational AI</h2>
+<p><strong>Canary Technologies</strong> published a verified case study from Point Hotel Brisbane (Hospitality Net, Oct 9). 
+Point Hotel Brisbane deployed Canary Technologies across messaging, check-in, checkout, and upselling, saving 300 staff hours in six months and generating over AUD 60,000 in ancillary revenue.
+ This is a dual metric with hotel attribution — not a vendor projection — and one of the cleaner ROI disclosures of the cycle. The 300 hours represents labour redeployable to guest-facing service; the AUD 60,000 is attributable to AI-triggered upsell conversions through the platform&#39;s pre-arrival and in-stay prompts.</p>
+<p>QSR Magazine (Oct 9) synthesised the current state of AI in quick-service restaurant ordering, confirming the technology has moved beyond the experimentation phase. AI is being integrated into ordering platforms to make transactions faster, more personalised, and easier to manage — but AI is not taking over the basics of ordering at restaurants. Rather, it is emerging as a layer that can make these experiences smarter, with restaurants that intentionally deploy it creating ordering experiences that yield useful operational insights.
+ Voice accuracy and privacy governance are identified as the two unresolved constraints continuing to gate deployments.</p>
+<p>Sources: <a href="https://www.hospitalitynet.org/casestudy/4134820/how-point-hotel-saved-nearly-300-staff-hours-in-six-months-with-canary">Hospitality Net / Canary Technologies (Oct 9)</a> · <a href="https://www.qsrmagazine.com/story/how-ai-is-changing-quick-service-restaurant-ordering-in-2026/">QSR Magazine (Oct 9)</a></p>
+<div class="so-what"><strong>So what:</strong> The Canary/Point Hotel number is the strongest operator-attributed ROI disclosure of this briefing cycle in the hotel sector. For mid-market operators evaluating guest messaging platforms, AUD 60,000 in incremental ancillary revenue over six months from a property of this scale sets a meaningful benchmark. The QSR synthesis is trade-level framing with no operator-attributed outcomes; useful for positioning conversations, not commercial case building.</div>
+<hr>
+<h2>Vendor Moves</h2>
+<p><strong>Presto</strong> raised $10 million to expand its restaurant drive-thru voice AI business (RTN, October 2026). 
+Presto raised $10 million to expand its restaurant drive-thru voice AI business, adding capital as it broadens customer deployments and builds connections with restaurant technology providers. The financing was announced September 28.
+ The raise is notable context: Presto&#39;s public-market trajectory after its 2022 SPAC was turbulent, including deployment pauses at CKE Restaurants. A fresh institutional raise signals that the drive-thru voice AI market has stabilised sufficiently to attract renewed capital — but Presto has not published post-pause order accuracy or uptime data.</p>
+<p>Sources: <a href="https://restauranttechnologynews.com/2026/10/presto-raises-10-million-to-expand-drive-thru-voice-ai-as-pos-integration-shapes-competition/">Restaurant Technology News (October 2026)</a></p>
+<div class="so-what"><strong>So what:</strong> At $10M, Presto&#39;s raise is well below the $36M Slang series B or Palona&#39;s $20M Series A. It signals the drive-thru voice AI market has not consolidated to two or three players. For restaurant operators still evaluating voice AI for drive-thru, the expanded set of funded providers gives more negotiating leverage — but each vendor&#39;s post-deployment accuracy track record remains the essential due diligence point.</div>
+<hr>
+<h2>Governance &amp; Security</h2>
+<p><strong>Hotel Technology News</strong> (October 2026) published analysis on password attack prevention for hotels, framing the issue directly in the context of AI-expanded attack surfaces. As AI voice agents, guest-facing chatbots, and third-party tool integrations multiply connection points to PMS, payment, and identity systems, the credential attack surface widens commensurately. No specific incident is reported; the piece is a timely reminder that agentic infrastructure creates new exposure alongside its operational benefits.</p>
+<p>Sources: <a href="https://hoteltechnologynews.com/2026/10/how-hotels-can-prevent-password-attacks-and-protect-guest-information/">Hotel Technology News (October 2026)</a></p>
+<div class="so-what"><strong>So what:</strong> Governance teams at hotel groups scaling AI-facing integrations should be auditing OAuth scopes and API credential management now, not after the first incident. The PMS is the most credential-rich and historically least-hardened system in most hotel stacks.</div>
+<hr>
+<h2>AGENTWASHING</h2>
+<div class="table-wrap"><table class="briefing-table">
+<thead>
+<tr>
+<th>Vendor</th>
+<th>Claim</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>McDonald&#39;s / AI Pricing</td>
+<td>Media and a class-action lawsuit characterise McDonald&#39;s as using AI to <em>set</em> menu prices</td>
+<td><strong>Noise</strong> — McDonald&#39;s explicitly disputes this characterisation. The company provides franchisees with pricing tools and data-driven recommendations; operators make final pricing decisions. RTN&#39;s October viewpoint correctly reframes the debate: the claim blurs AI-assisted pricing intelligence with autonomous dynamic pricing. These are materially different deployments with different liability and guest trust implications.</td>
+</tr>
+<tr>
+<td>Presto</td>
+<td>Drive-thru &quot;Voice AI&quot; platform re-emerging after deployment pauses</td>
+<td><strong>Watch</strong> — The $10M raise signals improved operational viability since the CKE pause in 2024, but Presto has not published post-pause order-accuracy rates or system uptime metrics. POS integration expansion is the right proving ground; the claim needs operator-attributed accuracy data to move to Signal.</td>
+</tr>
+<tr>
+<td>AI ordering broadly (QSR Magazine synthesis)</td>
+<td>Multiple vendors describing &quot;AI-powered ordering&quot; across drive-thru, mobile, and web</td>
+<td><strong>Noise (for most)</strong> — QSR Magazine&#39;s Oct 9 synthesis confirms that true AI personalisation at order time — drawing on real prior purchase history for per-customer upsell — remains limited. Most deployed &quot;AI ordering&quot; is rule-based upsell logic with a machine-learning label. The genuine AI layer requires POS integration and persistent customer identity linkage that most restaurant tech stacks do not yet cleanly support.</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>DATA POINTS FOR COMMERCIAL CASE</h2>
+<ul class="data-points">
+<li>Canary Technologies deployment at Point Hotel Brisbane: 300 staff hours saved in 6 months, AUD 60,000 in ancillary revenue generated through AI-driven upsell prompts. (<a href="https://www.hospitalitynet.org/casestudy/4134820/how-point-hotel-saved-nearly-300-staff-hours-in-six-months-with-canary">Hospitality Net, Oct 9</a>)</li>
+<li>Kollective AI Index: AI platforms returned the same #1 hotel recommendation on only 60.2% of identical queries repeated one hour apart — across 22,500 primary answers. (<a href="https://www.hotelspeak.com/2026/10/ai-hotel-recommendations-are-noisy-but-not-random/">HotelSpeak/Kollective, Oct 6</a>)</li>
+<li>Kollective: A stable core of hotels (~35% of the pool) carried 88% of all AI naming events across a month of querying. (<a href="https://www.hotelspeak.com/2026/10/ai-hotel-recommendations-are-noisy-but-not-random/">HotelSpeak/Kollective, Oct 6</a>)</li>
+<li>Kollective: Changing phrasing reduced same-#1 AI agreement to 40%, a larger impact than geography (46.7%) or waiting days (57.1%). (<a href="https://www.hotelspeak.com/2026/10/ai-hotel-recommendations-are-noisy-but-not-random/">HotelSpeak/Kollective, Oct 6</a>)</li>
+<li>Kollective: Luxury AI hotel recommendations had 17% same-#1 consensus across five platforms; boutique had only 3.5%. (<a href="https://www.hotelspeak.com/2026/10/ai-hotel-recommendations-are-noisy-but-not-random/">HotelSpeak/Kollective, Oct 6</a>)</li>
+<li>Marriott&#39;s Alibaba/Fliggy AI agent integration enables full F&amp;B and ancillary transaction through natural language; rival chains remain limited to 5-field room search on the same surfaces. (<a href="https://www.hospitalitynet.org/opinion/4134826/in-china-the-ai-agent-can-already-sell-marriotts-afternoon-tea">Hospitality Net, Oct 9</a>)</li>
+<li>Presto raised $10M for drive-thru voice AI POS expansion (announced Sep 28, reported RTN October 2026). (<a href="https://restauranttechnologynews.com/2026/10/presto-raises-10-million-to-expand-drive-thru-voice-ai-as-pos-integration-shapes-competition/">RTN</a>)</li>
+<li>Restaurant365 2026 midyear survey (420+ operators, ~10,000 locations): 38% of restaurant operators have no plans to use AI; top barriers are data privacy/security (37%) and output accuracy concerns (34%). (<a href="https://hospitalitytech.com/ai-already-working-restaurant-back-office-heres-what-operators-need-and-want-next">Hospitality Technology</a>)</li>
+<li>Among restaurant operators actively using back-office AI: 61% report reduced food costs, 62% report reduced labour costs, 88% say it saves time every week. (<a href="https://hospitalitytech.com/ai-already-working-restaurant-back-office-heres-what-operators-need-and-want-next">Hospitality Technology</a>)</li>
+</ul>
+<hr>
+<h2>WHO TO WATCH</h2>
+<p><strong>Markus Busch (Editor/Publisher, hospitality.today)</strong> — His Oct 9 analysis of Marriott&#39;s Fliggy structural advantage is the sharpest piece of AI distribution intelligence published in this window. The specific mechanism he surfaces — that nine years of Alibaba partnership has produced transactional depth rivals cannot replicate through a quick API connection — is the kind of structural insight typically under-discussed until it becomes obvious. Track his ongoing analysis of AI agent commercial models across Asian distribution channels.</p>
+<p><strong>Glenn Fogel (CEO, Booking Holdings)</strong> — His Q2 2026 on-record statement that AI-initiated bookings remain below 1% of Booking Holdings&#39; room nights, despite growing AI-generated traffic, is the most credible data point in the industry on the &quot;traffic vs. transaction&quot; gap. The Skift &quot;Prove-It Phase&quot; framing (Oct 11) is built on exactly this gap. His next earnings commentary will set the updated number that the whole industry will benchmark against.</p>
+<p><strong>Kollective Agency</strong> — The boutique hotel digital marketing firm has produced what is to date the most methodologically rigorous empirical study of AI hotel recommendation behaviour across multiple platforms. Their 28,600-answer dataset, with explicit control arms for phrasing, geography, and timing, sets a new bar for AI visibility research in hospitality. Their announced next release — on which sources the engines draw from, per engine and per intent — is the follow-up to watch.</p>
+<hr>
+</div></div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-label">This Edition</div>
+          <div id="sidebar-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="stat-clusters">5</div>
+              <div class="stat-label">Signal clusters identified</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-flags">3</div>
+              <div class="stat-label">Vendor claims assessed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-sources">6</div>
+              <div class="stat-label">Sources cited</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Filter by Domain</div>
+          <div id="domain-filters">
+            <span class="domain-pill active" data-domain="all">All</span>
+            <span class="domain-pill" data-domain="data">Data & Integration</span>
+            <span class="domain-pill" data-domain="visibility">AI Visibility</span>
+            <span class="domain-pill" data-domain="vendor">Vendor Moves</span>
+            <span class="domain-pill" data-domain="ops">Operational AI</span>
+            <span class="domain-pill" data-domain="people">People & Skills</span>
+            <span class="domain-pill" data-domain="governance">Governance</span>
+            <span class="domain-pill" data-domain="funding">Funding & M&A</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Archive</div>
+          <div id="sidebar-archive" style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); line-height: 2;"><div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-12.html" style="color: inherit; text-decoration: none;">Monday, 12 October 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-09.html" style="color: inherit; text-decoration: none;">Friday, 9 October 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-07.html" style="color: inherit; text-decoration: none;">Wednesday, 7 October 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-05.html" style="color: inherit; text-decoration: none;">Monday, 5 October 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-02.html" style="color: inherit; text-decoration: none;">Friday, 2 October 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-09-30.html" style="color: inherit; text-decoration: none;">Wednesday, 30 September 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-09-28.html" style="color: inherit; text-decoration: none;">Monday, 28 September 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-09-25.html" style="color: inherit; text-decoration: none;">Friday, 25 September 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-09-23.html" style="color: inherit; text-decoration: none;">Wednesday, 23 September 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-09-21.html" style="color: inherit; text-decoration: none;">Monday, 21 September 2026</a></div></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">About</div>
+          <p style="font-size: 0.78rem; color: var(--muted); line-height: 1.6;">
+            Hospitality AI intelligence for operators and PE-backed SaaS companies. 
+            Signal-first. Vendor-independent. Generated three times a week by an 
+            autonomous research agent scanning 15+ trade press, research, and 
+            technology sources.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">A publication from <a href="https://inverisla.com">Inverisla</a></div>
+    <div class="footer-right">Generated Mon/Wed/Fri · Signal over noise · Vendor independent</div>
+  </footer>
+
+  <script>
+    // Cosmetic only: domain pill active state (filtering not yet implemented)
+    document.querySelectorAll('.domain-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.domain-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+  </script>
+  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6dc51b39b9a943e49c9c039781bef7a2"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
