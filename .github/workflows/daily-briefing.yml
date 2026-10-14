@@ -12,6 +12,35 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # The agent's web_search/web_fetch tools obey the environment's network
+      # policy: under "limited" networking they can only reach hosts listed in
+      # allowed_hosts, and with none listed every search returns url_not_allowed
+      # (the 2026-10-14 failure). The briefing needs open web access, so make
+      # sure the environment is "unrestricted" before each run. Best-effort: the
+      # output check in "Poll for completion" is the hard guard.
+      - name: Ensure agent environment can reach the web
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ENV_URL: https://api.anthropic.com/v1/environments/env_01QFEq9dNeWPGWX9Qm2U1Vb2
+        run: |
+          api() {
+            curl -sS -H "x-api-key: $ANTHROPIC_API_KEY" \
+              -H "anthropic-version: 2023-06-01" \
+              -H "anthropic-beta: managed-agents-2026-04-01" "$@"
+          }
+          NET=$(api "$ENV_URL" | jq -c '.config.networking') || NET=null
+          echo "Environment networking: $NET"
+          if [ "$(echo "$NET" | jq -r '.type // empty' 2>/dev/null)" = "unrestricted" ]; then
+            exit 0
+          fi
+          echo "::warning::Agent environment networking is not unrestricted ($NET); web search would be blocked. Switching it to unrestricted."
+          api -X POST "$ENV_URL" --fail-with-body \
+            -H "content-type: application/json" \
+            -d '{"config": {"type": "cloud", "networking": {"type": "unrestricted"}}}' \
+            || echo "::warning::Could not update the environment. Set its networking to unrestricted in the Anthropic console."
+          echo
+          echo "Environment networking now: $(api "$ENV_URL" | jq -c '.config.networking')"
+
       - name: Create session
         id: create_session
         run: |
@@ -105,6 +134,26 @@ jobs:
               echo "Agent finished."
               OUTPUT=$(echo $EVENTS | jq -r '[.data[] | select(.type == "agent.message")] | last | .content[] | select(.type == "text") | .text')
               mkdir -p briefings
+
+              # A real briefing has at least one "## " section heading, or is the
+              # one-line quiet-cycle note. Anything else is the agent explaining
+              # why it couldn't work (blocked tools, etc.) — don't publish that.
+              if ! printf '%s\n' "$OUTPUT" | grep -qE '^## |^Quiet cycle:'; then
+                echo "Agent finished without producing a briefing:"
+                printf '%s\n' "$OUTPUT" | head -40
+                {
+                  echo "# Hospitality AI Briefing — $DATE"
+                  echo ""
+                  echo "_Briefing run failed._"
+                  echo ""
+                  echo "**Reason:** the agent finished without producing a briefing (usually its web search or fetch tools were blocked)."
+                  echo ""
+                  echo "Check the Anthropic console for session $SESSION_ID."
+                } > "briefings/$DATE.md"
+                STATUS="failed"
+                break
+              fi
+
               echo "# Hospitality AI Briefing — $DATE" > "briefings/$DATE.md"
               echo "" >> "briefings/$DATE.md"
               printf '%s' "$OUTPUT" >> "briefings/$DATE.md"
