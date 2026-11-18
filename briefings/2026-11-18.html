@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitality AI Briefing — Wednesday, 18 November 2026</title>
+  <meta name="description" content="Three independent moves this cycle place agentic intelligence inside the restaurant's kitchen and marketing stack, each with measurable production conte...">
+  <link rel="canonical" href="https://briefings.inverisla.com/briefings/2026-11-18.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --accent: #c9a96a;        /* changed from #c8401a — matches inverisla gold */
+      --accent-light: #d9c089;  /* lighter gold variant */
+      --muted: #7a7060;
+      --border: #d4cdc0;
+      --signal: #1a6e3c;
+      --noise: #8b3a1a;
+      --watch: #1a3a6e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 2rem 3rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .masthead-left {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .masthead-title {
+      text-align: center;
+    }
+
+    .masthead-title h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .masthead-title .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .masthead-right {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .masthead-right .edition {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    /* TICKER BAR */
+    .ticker {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.5rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 40s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker-sep {
+      color: var(--accent);
+      margin: 0 1.5rem;
+    }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    /* ARCHIVE NAV */
+    .archive-bar {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .archive-bar::-webkit-scrollbar { display: none; }
+
+    .archive-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--muted);
+      white-space: nowrap;
+      transition: all 0.15s;
+      border-right: 1px solid var(--border);
+    }
+
+    .archive-btn:first-child { border-left: 1px solid var(--border); }
+
+    .archive-btn:hover { background: var(--cream); color: var(--ink); }
+
+    .archive-btn.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* MAIN CONTENT */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 0;
+      min-height: 70vh;
+    }
+
+    /* BRIEFING CONTENT */
+    .briefing-content {
+      border-right: 1px solid var(--border);
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .briefing-date-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .briefing-date-header .date-label {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .briefing-date-header .date-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Rendered markdown styles */
+    .briefing-body h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .briefing-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+    .briefing-body h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .briefing-body p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #2a2520;
+      margin-bottom: 0.75rem;
+    }
+
+    .briefing-body strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .briefing-body ul, .briefing-body ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .briefing-body li {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #2a2520;
+      margin-bottom: 0.3rem;
+    }
+
+    .briefing-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .briefing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .briefing-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--cream);
+      padding: 0.6rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-weight: 400;
+    }
+
+    .briefing-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+      color: #2a2520;
+    }
+
+    .briefing-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .briefing-table tr:hover td {
+      background: var(--cream);
+    }
+
+    /* Links */
+    .briefing-body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: border-color 0.15s;
+    }
+
+    .briefing-body a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    /* Cluster cards */
+    .cluster-card {
+      background: var(--cream);
+      border-left: 3px solid var(--accent);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .cluster-card .so-what {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .tag-signal { background: #d4ede0; color: var(--signal); }
+    .tag-noise { background: #f0ddd5; color: var(--noise); }
+    .tag-watch { background: #d5dded; color: var(--watch); }
+    .tag-data { background: #ede8d5; color: #5a4a1a; }
+
+    /* SIDEBAR */
+    .sidebar {
+      padding: 2rem 0 2rem 2rem;
+    }
+
+    .sidebar-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-section:last-child { border-bottom: none; }
+
+    .sidebar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-item {
+      margin-bottom: 1rem;
+    }
+
+    .stat-number {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      line-height: 1.3;
+    }
+
+    .domain-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin: 0.2rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .domain-pill:hover, .domain-pill.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40vh;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .loading-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 4rem 0;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* BRAND BAR (link back to inverisla.com) */
+    .brandbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 3rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .brandbar a { color: var(--ink); text-decoration: none; }
+    .brandbar a:hover { color: #82662F; }
+    .brandbar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+    .brandbar-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+    }
+    .brandbar-mark {
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .brandbar-mark::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .brandbar-cta { color: var(--muted) !important; }
+    .brandbar-cta:hover { color: #82662F !important; }
+
+    /* WHO WRITES IT */
+    .about-brief {
+      max-width: 760px;
+      margin: 3rem auto 0;
+      padding: 0 3rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--ink);
+      font-weight: 400;
+    }
+    .about-brief a { color: #82662F; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 3px double var(--ink);
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    footer .footer-left {
+      font-family: 'Fraunces', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    footer .footer-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .masthead { grid-template-columns: 1fr; text-align: center; padding: 1.5rem; }
+      .brandbar { padding: 0.6rem 1.5rem; }
+      .brandbar-cta-long { display: none; }
+      .about-brief { padding: 0 1.5rem; margin-top: 2rem; }
+      .masthead-left, .masthead-right { display: none; }
+      .container { padding: 0 1.5rem; }
+      .main-grid { grid-template-columns: 1fr; }
+      .briefing-content { border-right: none; padding: 1.5rem 0; }
+      .sidebar { padding: 1.5rem 0; border-top: 1px solid var(--border); }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+
+    /* Data points callout */
+    .data-points {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 2px;
+      list-style: none;
+      padding-left: 1.5rem;
+    }
+
+    .data-points li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dotted var(--border);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .data-points li:last-child {
+      border-bottom: none;
+    }
+
+    .data-points li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+      top: 0.6rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BRAND BAR: back to inverisla.com (inverisla-website#43) -->
+  <div class="brandbar">
+    <a class="brandbar-home" href="https://inverisla.com/?src=brief"><span class="brandbar-mark" aria-hidden="true"></span>Inverisla</a>
+    <a class="brandbar-cta" href="https://inverisla.com/platform-review?src=brief">Platform reviews<span class="brandbar-cta-long"> for technology founders</span> <span aria-hidden="true">→</span></a>
+  </div>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-left">
+      Hospitality Technology Intelligence<br>
+      AI Readiness & Strategy Monitor
+    </div>
+    <div class="masthead-title">
+      <h1>The Daily Brief</h1>
+      <div class="subtitle">AI in Hospitality &nbsp;·&nbsp; Signal Over Noise</div>
+    </div>
+    <div class="masthead-right">
+      <div class="edition" id="current-date-display">Wednesday, 18 November 2026</div>
+      <div style="margin-top: 0.3rem;">Independent Intelligence</div>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <span class="ticker-inner" id="ticker-content">Signal over noise · Vendor independent</span>
+  </div>
+
+  <div class="container">
+
+    <!-- ARCHIVE NAV -->
+    <nav class="archive-bar" id="archive-nav"><a class="archive-btn active" href="/briefings/2026-11-18.html">18 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-16.html">16 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-13.html">13 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-11.html">11 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-09.html">9 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-06.html">6 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-04.html">4 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-11-02.html">2 Nov</a>
+      <a class="archive-btn " href="/briefings/2026-10-30.html">30 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-28.html">28 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-26.html">26 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-23.html">23 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-21.html">21 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-19.html">19 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-16.html">16 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-14.html">14 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-12.html">12 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-09.html">9 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-07.html">7 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-05.html">5 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-10-02.html">2 Oct</a>
+      <a class="archive-btn " href="/briefings/2026-09-30.html">30 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-28.html">28 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-25.html">25 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-23.html">23 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-21.html">21 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-18.html">18 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-16.html">16 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-14.html">14 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-11.html">11 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-09.html">9 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-07.html">7 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-04.html">4 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-09-02.html">2 Sept</a>
+      <a class="archive-btn " href="/briefings/2026-08-31.html">31 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-28.html">28 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-26.html">26 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-24.html">24 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-21.html">21 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-19.html">19 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-17.html">17 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-14.html">14 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-12.html">12 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-10.html">10 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-07.html">7 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-05.html">5 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-08-03.html">3 Aug</a>
+      <a class="archive-btn " href="/briefings/2026-07-31.html">31 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-29.html">29 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-24.html">24 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-22.html">22 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-20.html">20 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-17.html">17 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-15.html">15 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-13.html">13 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-10.html">10 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-08.html">8 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-06.html">6 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-03.html">3 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-07-01.html">1 Jul</a>
+      <a class="archive-btn " href="/briefings/2026-06-29.html">29 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-26.html">26 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-24.html">24 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-22.html">22 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-19.html">19 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-17.html">17 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-15.html">15 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-12.html">12 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-10.html">10 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-08.html">8 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-05.html">5 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-03.html">3 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-06-01.html">1 Jun</a>
+      <a class="archive-btn " href="/briefings/2026-05-29.html">29 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-27.html">27 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-25.html">25 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-22.html">22 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-20.html">20 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-16.html">16 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-15.html">15 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-14.html">14 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-13.html">13 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-12.html">12 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-11.html">11 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-10.html">10 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-09.html">9 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-08.html">8 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-07.html">7 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-06.html">6 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-05.html">5 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-04.html">4 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-03.html">3 May</a>
+      <a class="archive-btn " href="/briefings/2026-05-02.html">2 May</a>
+      <a class="archive-btn " href="/briefings/2026-04-30.html">30 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-29.html">29 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-28.html">28 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-27.html">27 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-26.html">26 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-25.html">25 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-18.html">18 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-17.html">17 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-16.html">16 Apr</a>
+      <a class="archive-btn " href="/briefings/2026-04-15.html">15 Apr</a></nav>
+
+    <!-- MAIN -->
+    <div class="main-grid">
+      <main class="briefing-content">
+        <div id="briefing-output">
+        <div class="briefing-date-header">
+          <div class="date-label">Wednesday, 18 November 2026</div>
+          <div class="date-meta">Daily Intelligence Report</div>
+        </div>
+        <div class="briefing-body"><h2>Kitchens and Quality: Operational AI Moves into the Production Line</h2>
+<p>Three independent moves this cycle place agentic intelligence inside the restaurant&#39;s kitchen and marketing stack, each with measurable production context rather than generic AI assistance.</p>
+<p><strong>Metafoodx</strong> (17 Nov) — The San Jose food-operations platform introduced Chef Echo, an agentic AI chef assistant built on its existing production planning data. Each morning it flags overproduction risks, upcoming demand spikes from holidays or weather, and menu items worth closer attention, then proposes a production plan from the kitchen&#39;s own history. CEO Fengmin Gong said: &quot;Chef Echo helps teams carry that knowledge forward and see what needs attention today, so chefs can spend more time on food quality.&quot; Preview Program registration opened the same day; general availability is planned for Q1 2027. Existing customers have already reported results: 
+Pomona College reduced overproduction by 54% and plate costs by 8% in nine months; UMass Amherst&#39;s Harvest Market reduced overproduction by 51.7% in 12 weeks.
+ The company also announced Alan Deane, formerly of Foundstone (acquired by McAfee), as chief revenue officer.</p>
+<p><strong>Papa John&#39;s</strong> (17 Nov) — 
+Papa John&#39;s launched a promotional campaign inviting customers to photograph their delivered pizzas in exchange for a free pizza. The submitted photographs are analyzed using AI technology to identify potential quality issues, including uneven cuts, improperly cooked crusts and burnt cheese, and are intended to give the chain access to a much larger collection of real-world pizza images than its existing in-store monitoring system.</p>
+<p>AI cameras are installed in only a few hundred of the company&#39;s more than 6,000 locations worldwide. The pizza inspection campaign is part of an AI initiative supported by Papa John&#39;s expanded, multi-year partnership with Google Cloud, using Gemini and BigQuery.</p>
+<p>The initiative comes at a challenging time: on November 5, the company reported a 6.5% decline in quarterly same-store sales.</p>
+<p><strong>Donatos Pizza</strong> (17 Nov) — 
+Donatos Pizza announced a partnership with Eulerity, the AI-powered marketing automation platform for multi-location brands, to bring its local digital marketing in-house and automate it across every restaurant — replacing fragmented digital media workflows with one automated system running paid media across search, social, display, video and connected TV.
+ The partnership was unveiled on stage at the Donatos Franchise Conference in Columbus.</p>
+<p>Sources: <a href="https://www.prnewswire.com/news-releases/metafoodx-introduces-chef-echo-an-agentic-ai-assistant-for-commercial-kitchens-302942165.html">PRNewswire – Metafoodx Chef Echo</a>, <a href="https://www.techtimes.com/articles/330901/20261117/papa-johns-turns-ai-fix-inconsistent-pizza-quality-using-customer-photos.htm">TechTimes – Papa John&#39;s</a>, <a href="https://www.qsrmagazine.com/news/donatos-partners-with-eulerity-to-automate-local-marketing-across-every-restaurant/">QSR Magazine – Donatos/Eulerity</a></p>
+<div class="so-what"><strong>So what:</strong> Kitchen AI grounded in a restaurant&#39;s own operational data — not generic LLM advice — is where durable ROI is appearing. Chef Echo&#39;s design (agent surfaces, chef decides) mirrors the human-in-the-loop pattern operators are most comfortable with. The Papa John&#39;s customer-photo model is worth watching for franchise operators: it creates AI training data at near-zero infrastructure cost by converting quality complaints into a systematic feedback loop across locations.</div>
+<hr>
+<h2>Uber Eats Rewires Its Merchant Stack Around AI</h2>
+<p>Uber Eats unveiled at its inaugural Delivered product event for businesses that restaurants using the platform can now create AI-generated websites through a new partnership with online ordering provider Owner. Operators upload their menu, photos and reviews to create a site with commission-free online ordering; Owner&#39;s websites are designed to improve a restaurant&#39;s visibility in Google searches. The service is free.</p>
+<p>Separately, Uber introduced Ride and Dine, letting restaurants send dine-in deals to Uber riders near their destination, launching in San Francisco in January.
+ An AI-powered Merchant Assistant was also added — a chatbot embedded in the Uber Eats Merchant app allowing operators to query their sales patterns, advertising performance and operations data conversationally. 
+Uber&#39;s Head of Merchant Product Neeraj Khanchandani said: &quot;With these new tools, we&#39;re putting AI to work on everyday business questions, simplifying operations, and helping restaurants reach more customers.&quot;</p>
+<p>Sources: <a href="https://www.nrn.com/restaurant-technology/uber-eats-partners-with-owner-to-offer-ai-generated-websites">Nation&#39;s Restaurant News – Uber Eats/Owner</a></p>
+<div class="so-what"><strong>So what:</strong> The Owner partnership directly mirrors DoorDash&#39;s DashOS restaurant growth platform announced in October. Uber is competing by bundling AI website creation at zero cost — a tool Owner (valued at $2.3B after its August Series D) would otherwise charge for. For independent operators weighing platforms: free AI-built websites optimized for Google discovery, with commission-free direct ordering, now come packaged with delivery, compressing the case for maintaining a separate website vendor.</div>
+<hr>
+<h2>Consumer Finance and Messaging Apps Enter Restaurant Booking</h2>
+<p>Two non-hospitality platforms announced AI agents that include restaurant table booking, extending the list of channels outside the traditional reservation stack that operators must now monitor.</p>
+<p><strong>Turno.ai</strong> (16 Nov) — 
+The platform introduced a WhatsApp-based AI assistant for restaurant reservation management, combining artificial intelligence with WhatsApp to help restaurants simplify bookings, improve guest communication, and reduce repetitive administrative tasks. The platform allows customers to communicate using the familiar messaging interface without downloading additional applications.</p>
+<p>Customers can request table reservations, communicate dietary restrictions or allergies, and provide information about group dining arrangements through a conversational interface.</p>
+<p>A free pilot program is available through January 2027.</p>
+<p><strong>Klarna</strong> (17 Nov) — 
+Klarna, the everyday finance network, announced the Klarna AI-assistant, a personal assistant that handles shopping, returns, bookings and everyday admin, operating over WhatsApp and iMessage. Currently live with a small group of early users, the AI-assistant acts like a personal concierge, booking &quot;anything from a table for two, to a babysitter.&quot;</p>
+<p>CEO Sebastian Siemiatkowski said: &quot;The Klarna AI-assistant is a major step toward that vision. It is part of our long-term strategy to use technology to help people save time and money.&quot; Klarna has over 122 million global active users and 3.8 million transactions per day, with customers having spent more than $34 billion through the app&#39;s built-in browser since 2020.</p>
+<p>Sources: <a href="https://www.openpr.com/news/4691321/turno-ai-introduces-automated-whatsapp-assistant-to-simplify">OpenPR – Turno.ai</a>, <a href="https://finance.yahoo.com/technology/ai/articles/returns-restaurant-bookings-klarna-ai-142600253.html">Yahoo Finance / BusinessWire – Klarna</a></p>
+<div class="so-what"><strong>So what:</strong> Neither will drive material reservation volume near-term, but both illustrate the structural risk: a fintech with 122 million users inserting itself between the diner and the restaurant creates a new data intermediary the restaurant does not own or control. Operators should audit which AI assistants are routing bookings to their platform and confirm they have direct connections to the emerging agent-booking stack (OpenTable, Resy, ChatGPT) rather than relying on third-party routing.</div>
+<hr>
+<h2>Booking Holdings Doubles Down: Vayo Goes Cross-Platform, KAYAK Adds 28 AI Features</h2>
+<p>Both major product moves from Booking Holdings this cycle push further into agentic travel commerce, with Vayo expanding beyond its own portfolio and KAYAK tying AI to live bookable inventory.</p>
+<p><strong>Booking Holdings / Vayo</strong> (17 Nov) — 
+One month after launch, Vayo can now navigate booking websites and complete reservations after receiving the user&#39;s approval — and is not restricted to Booking Holdings&#39; own travel platforms. Vayo confirmed it can also make reservations through Expedia, one of Booking.com&#39;s largest competitors, without a direct technical partnership or booking integration.</p>
+<p>The system signs in to a traveler&#39;s existing account and completes the booking through the supplier&#39;s website, using 1Password technology to manage account access and Stripe&#39;s Link agent wallet for certain payments, without directly viewing the traveler&#39;s passwords or payment card details.
+ When travelers choose Booking.com accommodation, 
+Vayo users receive access to Genius Level 3 pricing with discounts of up to 20% at selected properties.</p>
+<p><strong>KAYAK</strong> (17 Nov) — 
+KAYAK rolled out 28 new and enhanced AI features across its Ask AI travel-search experience, expanding flexible-date price searches, conversational itineraries, mobile access and more detailed flight and hotel searches — extending a hybrid workflow in which travelers discuss and refine plans in Ask AI while live prices update beside the conversation.</p>
+<p>CEO Peer Bueller said: &quot;AI is great at suggesting where to go, but it can sound confident even when it&#39;s out of date. That&#39;s why our AI is tied to live prices, so you can verify what it suggests before you book.&quot;</p>
+<p>KAYAK says 30% of sampled Ask AI conversations since launch included flexible or open-ended requests, and reports that travelers using Ask AI are about 2.5 times as likely to book.</p>
+<p>Sources: <a href="https://www.rustourismnews.com/2026/11/17/booking-com-parent-launches-ai-agent-that-can-book-hotels-and-flights-on-rival-websites/">Rustourismnews – Vayo</a>, <a href="https://www.unite.ai/kayak-adds-28-ai-features-to-pair-trip-planning-with-live-prices/">Unite.AI – KAYAK</a></p>
+<div class="so-what"><strong>So what:</strong> Vayo&#39;s willingness to book through Expedia is the most strategically unusual move of the cycle. Booking Holdings is building a cross-OTA agent that happens to prefer its own inventory when pricing is comparable — capturing the booking relationship regardless of where inventory lives. For independent hoteliers, the more urgent question is whether Vayo&#39;s criteria for surfacing non-Booking inventory are transparent or controllable. KAYAK&#39;s 2.5x booking uplift claim, while correlational, is the clearest commercial case any AI travel tool has published this cycle.</div>
+<hr>
+<h2>People &amp; Skills: A Free Operational Playbook for Hotel AI Agents</h2>
+<p><strong>Pertlink</strong> (17 Nov) — 
+The Hong Kong-based hospitality technology and AI advisory consultancy published <em>The Hotel AI Agent Playbook</em>, a free, practical guide covering 19 ready-to-adapt AI agents for every hotel department, a plain eight-step method from blank sheet to launch, and a plan to stop any agent in under five minutes.</p>
+<p>The eight-step method covers builds in Claude, ChatGPT and Microsoft Copilot. No coding and no new platform is required; agents run on tools many hotels already subscribe to.
+ The playbook includes an Outside Agent Policy template — a framework for hotels to define which inbound AI agents (such as Vayo or Muse) are permitted to access their systems and what they can do. 
+It also addresses the AI cost question: every request uses tokens, and the playbook builds running cost into each agent from day one, linked to Pertlink&#39;s Token Cost Per Guest (TCPG) measure.
+ Founder Terence Ronson said: &quot;Hotels have heard plenty about what AI agents could do for them. Very few have been shown how to put one to work safely.&quot;</p>
+<p>Sources: <a href="https://www.hotelnewsresource.com/article143794.html">Hotel News Resource – Pertlink Playbook</a></p>
+<div class="so-what"><strong>So what:</strong> The Outside Agent Policy template is the most practically urgent output for any mid-market hotel operator right now. With Vayo, Muse and Google AI Mode all claiming to complete hotel bookings on behalf of travelers, properties need a written, enforceable policy on what machine customers are permitted to do — and who bears liability when something goes wrong. This guide provides a vendor-neutral starting framework at no cost.</div>
+<hr>
+<h2>Agentwashing</h2>
+<div class="table-wrap"><table class="briefing-table">
+<thead>
+<tr>
+<th>Vendor</th>
+<th>Claim</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Metafoodx</strong> (Chef Echo)</td>
+<td>&quot;Agentic AI chef assistant&quot; that proactively flags kitchen issues each morning before being asked</td>
+<td>Watch — data-grounded and architecturally agentic (pulls from production history, surfaces recommendations autonomously), but preview-only; GA not until Q1 2027</td>
+</tr>
+<tr>
+<td><strong>Uber Eats</strong> (Merchant Assistant)</td>
+<td>AI tool for restaurants to query sales patterns, advertising and operations &quot;conversationally&quot;</td>
+<td>Noise — conversational analytics dashboard with no evidence of autonomous action or workflow execution beyond reporting</td>
+</tr>
+<tr>
+<td><strong>Klarna</strong> (AI-assistant)</td>
+<td>Books &quot;anything from a table for two&quot; as a personal concierge</td>
+<td>Watch — restaurant booking included in launch claims; live for a small early-access group only; no hospitality-specific evidence published</td>
+</tr>
+<tr>
+<td><strong>Booking Holdings</strong> (Vayo)</td>
+<td>AI agent that books hotels and restaurants across rival websites with user approval</td>
+<td>Signal — cross-platform booking confirmed by GeekWire; uses Stripe Link agent wallet for payments; every transaction requires explicit traveler approval before confirmation</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>DATA POINTS FOR COMMERCIAL CASE</h2>
+<ul class="data-points">
+<li>Metafoodx customers at Pomona College reduced overproduction by 54% and plate costs by 8% in nine months using the production planning platform underlying Chef Echo (PRNewswire, 17 Nov 2026)</li>
+<li>Metafoodx customers at UMass Amherst&#39;s Harvest Market reduced overproduction by 51.7% in 12 weeks (PRNewswire, 17 Nov 2026)</li>
+<li>KAYAK reports travelers using Ask AI are approximately 2.5 times as likely to book as non-Ask-AI users; 30% of sampled Ask AI conversations involve flexible or open-ended date requests (Unite.AI, 17 Nov 2026)</li>
+<li>Papa John&#39;s AI-inspection cameras are installed in only a few hundred of 6,000+ global locations; the chain reported a 6.5% decline in quarterly same-store sales on 5 Nov 2026 (TechTimes, 17 Nov 2026)</li>
+<li>Klarna has 122 million global active Klarna users and 3.8 million transactions per day; customers have spent more than $34 billion through the app&#39;s built-in browser since 2020 (BusinessWire via Yahoo Finance, 17 Nov 2026)</li>
+<li>Booking Holdings Vayo offers Genius Level 3 discounts of up to 20% at selected Booking.com properties when travelers book through the agent — a loyalty incentive built directly into the agent layer (Rustourismnews, 17 Nov 2026)</li>
+</ul>
+<hr>
+<p>Watchlist, nothing new in window: DoorDash, SevenRooms, OpenTable, Resy, Tock, TheFork, American Express (dining/restaurants), Toast, Google (restaurant or hotel booking), OpenAI (commerce/bookings), Deliveroo.</p>
+<hr>
+</div></div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-label">This Edition</div>
+          <div id="sidebar-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="stat-clusters">5</div>
+              <div class="stat-label">Signal clusters identified</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-flags">4</div>
+              <div class="stat-label">Vendor claims assessed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="stat-sources">9</div>
+              <div class="stat-label">Sources cited</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Filter by Domain</div>
+          <div id="domain-filters">
+            <span class="domain-pill active" data-domain="all">All</span>
+            <span class="domain-pill" data-domain="data">Data & Integration</span>
+            <span class="domain-pill" data-domain="visibility">AI Visibility</span>
+            <span class="domain-pill" data-domain="vendor">Vendor Moves</span>
+            <span class="domain-pill" data-domain="ops">Operational AI</span>
+            <span class="domain-pill" data-domain="people">People & Skills</span>
+            <span class="domain-pill" data-domain="governance">Governance</span>
+            <span class="domain-pill" data-domain="funding">Funding & M&A</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Archive</div>
+          <div id="sidebar-archive" style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); line-height: 2;"><div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-18.html" style="color: inherit; text-decoration: none;">Wednesday, 18 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-16.html" style="color: inherit; text-decoration: none;">Monday, 16 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-13.html" style="color: inherit; text-decoration: none;">Friday, 13 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-11.html" style="color: inherit; text-decoration: none;">Wednesday, 11 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-09.html" style="color: inherit; text-decoration: none;">Monday, 9 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-06.html" style="color: inherit; text-decoration: none;">Friday, 6 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-04.html" style="color: inherit; text-decoration: none;">Wednesday, 4 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-11-02.html" style="color: inherit; text-decoration: none;">Monday, 2 November 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-30.html" style="color: inherit; text-decoration: none;">Friday, 30 October 2026</a></div>
+            <div style="padding: 0.1rem 0;"><a href="/briefings/2026-10-28.html" style="color: inherit; text-decoration: none;">Wednesday, 28 October 2026</a></div></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">About</div>
+          <p style="font-size: 0.78rem; color: var(--muted); line-height: 1.6;">
+            Hospitality AI intelligence for operators and PE-backed SaaS companies. 
+            Signal-first. Vendor-independent. Generated three times a week by an 
+            autonomous research agent scanning 15+ trade press, research, and 
+            technology sources.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- WHO WRITES IT (inverisla-website#43) -->
+  <div class="about-brief">
+    <p>The Daily Brief is researched and drafted by an AI agent that Colin Winning, the former CTO and CEO of ResDiary, built and runs at <a href="https://inverisla.com/?src=brief">Inverisla</a>. If your own platform needs an independent look, start with the <a href="https://inverisla.com/platform-review?src=brief">platform review</a>.</p>
+  </div>
+
+  <footer>
+    <div class="footer-left">A publication from <a href="https://inverisla.com/?src=brief">Inverisla</a></div>
+    <div class="footer-right">Generated Mon/Wed/Fri · Signal over noise · Vendor independent</div>
+  </footer>
+
+  <script>
+    // Cosmetic only: domain pill active state (filtering not yet implemented)
+    document.querySelectorAll('.domain-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.domain-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+  </script>
+  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6dc51b39b9a943e49c9c039781bef7a2"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
